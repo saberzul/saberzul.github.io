@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fa">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>saberzul — صفحه شخصی / Personal Website</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="lang">
+      <button id="lang-fa" aria-label="فارسی">فارسی</button>
+      <button id="lang-en" aria-label="English">English</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section id="hero-fa" class="hero" data-lang="fa">
+      <img src="https://github.com/saberzul.png" alt="saberzul" class="avatar"/>
+      <h1>سلام، من saberzul</h1>
+      <p>توسعه‌دهندهٔ فول‌استک — React · Node · Go</p>
+      <p><a href="#projects">پروژه‌ها</a> · <a href="#contact">تماس</a></p>
+    </section>
+
+    <section id="hero-en" class="hero" data-lang="en" style="display:none">
+      <img src="https://github.com/saberzul.png" alt="saberzul" class="avatar"/>
+      <h1>Hi — I'm saberzul</h1>
+      <p>Full‑stack Developer — React · Node · Go</p>
+      <p><a href="#projects">Projects</a> · <a href="#contact">Contact</a></p>
+    </section>
+
+    <section id="projects">
+      <h2 data-lang="fa">پروژه‌ها</h2>
+      <h2 data-lang="en" style="display:none">Projects</h2>
+      <ul>
+        <li>
+          <a href="https://github.com/saberzul/project-a">Project A</a> —
+          <span data-lang="fa">توضیح کوتاه پروژه A</span>
+          <span data-lang="en" style="display:none">Short description of Project A</span>
+        </li>
+        <li>
+          <a href="https://github.com/saberzul/project-b">Project B</a> —
+          <span data-lang="fa">توضیح کوتاه پروژه B</span>
+          <span data-lang="en" style="display:none">Short description of Project B</span>
+        </li>
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2 data-lang="fa">تماس</h2>
+      <h2 data-lang="en" style="display:none">Contact</h2>
+      <p data-lang="fa">ایمیل: yourname@example.com</p>
+      <p data-lang="en" style="display:none">Email: yourname@example.com</p>
+      <p><a href="https://github.com/saberzul">GitHub</a> · <a href="https://linkedin.com/in/yourprofile">LinkedIn</a></p>
+    </section>
+
+    <footer>
+      <p>© 2026 saberzul</p>
+    </footer>
+  </main>
+
+  <script>
+    const setLang = (lang) => {
+      document.querySelectorAll('[data-lang="fa"]').forEach(e => e.style.display = lang==='fa' ? '' : 'none');
+      document.querySelectorAll('[data-lang="en"]').forEach(e => e.style.display = lang==='en' ? '' : 'none');
+      // RTL for Persian
+      document.documentElement.dir = lang==='fa' ? 'rtl' : 'ltr';
+      document.documentElement.lang = lang==='fa' ? 'fa' : 'en';
+    };
+    document.getElementById('lang-fa').onclick = () => setLang('fa');
+    document.getElementById('lang-en').onclick = () => setLang('en');
+    // default language: فارسی
+    setLang('fa');
+  </script>
+</body>
+</html>
