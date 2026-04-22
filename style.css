@@ -1,0 +1,11 @@
+body{font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.6;margin:0;padding:0;background:#fff;color:#111}
+.container{max-width:900px;margin:18px auto;padding:20px}
+.nav{display:flex;justify-content:flex-end;padding:10px 20px}
+.lang button{margin-left:8px;padding:6px 10px;border-radius:6px;border:1px solid #ddd;background:#f7f7f7;cursor:pointer}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:12px}
+.avatar{width:120px;height:120px;border-radius:12px;object-fit:cover}
+h1{margin:.4em 0}
+section{margin:18px 0;padding:8px}
+ul{padding-left:1.1rem}
+footer{margin-top:30px;text-align:center;color:#666;padding:10px 0}
+@media (max-width:600px){.avatar{width:90px;height:90px}}
