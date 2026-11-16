@@ -1,76 +1,754 @@
 <!doctype html>
-<html lang="fa">
+<html lang="en" dir="ltr" data-theme="sakura">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>saberzul — صفحه شخصی / Personal Website</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Business Card</title>
+<meta name="description" content="Digital business card">
+<meta name="author" content="Saber Zulqarnain (zuldev)">
+<meta name="theme-color" content="#fde8ef">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;800&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js" defer></script>
+
+<!-- ===================================================================
+     CARD DATA — internal JSON. Edit it with admin.html (Export) or by hand.
+     =================================================================== -->
+<script type="application/json" id="card-data">
+{
+  "version": 1,
+  "theme": "sakura",
+  "allowThemeSwitch": true,
+  "defaultLang": "en",
+  "languages": ["en", "fa", "ja"],
+  "name":    { "fa": "صابر ذوالقرنین", "en": "Saber Zulqarnain", "ja": "サベル・ズルカルナイン" },
+  "title":   { "fa": "توسعه‌دهنده", "en": "Developer", "ja": "開発者" },
+  "company": { "fa": "zuldev", "en": "zuldev", "ja": "zuldev" },
+  "phone": "+81 90-1234-5678",
+  "email": "hello@example.com",
+  "website": "https://example.com",
+  "pageUrl": "",
+  "photo": "",
+  "logo": "",
+  "qr": { "mode": "page", "value": "" },
+  "social": {
+    "youtube": "https://www.youtube.com/@yourname",
+    "instagram": "https://instagram.com/yourname",
+    "tiktok": "https://www.tiktok.com/@yourname",
+    "github": "https://github.com/yourname",
+    "linkedin": "https://www.linkedin.com/in/yourname"
+  },
+  "line": { "id": "yourname", "url": "", "qr": "" },
+  "projects": [
+    { "name": { "fa": "کارت‌های هوشمند", "en": "Smart Cards", "ja": "スマートカード" },
+      "desc": { "fa": "کارت ویزیت دیجیتال چندزبانه", "en": "Multilingual digital business card", "ja": "多言語デジタル名刺" },
+      "url": "https://github.com/yourname/smart-cards" },
+    { "name": { "fa": "پورتفولیو", "en": "Portfolio", "ja": "ポートフォリオ" },
+      "desc": { "fa": "نمونه‌کارهای طراحی", "en": "Selected design work", "ja": "デザイン作品集" },
+      "url": "https://example.com/portfolio" }
+  ]
+}
+</script>
+
+<style>
+/* ─── 1 tokens (Clean platform scale; each card theme re-brands them) ─── */
+:root{
+  --font-fa:"Vazirmatn","Inter",Tahoma,system-ui,sans-serif;
+  --font-en:"Inter","Vazirmatn",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-ja:"Noto Sans JP","Inter","Hiragino Sans","Yu Gothic",system-ui,sans-serif;
+  --font:var(--font-fa);
+
+  --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;
+  --text-xs:.75rem;--text-s:.875rem;--text-m:1rem;--text-l:1.125rem;
+  --radius-s:8px;--radius-m:12px;--radius-l:18px;--radius-xl:28px;--radius-pill:999px;
+  --ease:cubic-bezier(.2,.7,.2,1);--ease-spring:cubic-bezier(.34,1.56,.64,1);--dur-fast:.18s;--dur:.32s;
+  --touch:44px;
+
+  /* brand colours of the networks (fixed meaning) */
+  --b-youtube:#ff0033;--b-instagram:#e1306c;--b-tiktok:#111111;--b-github:#24292f;--b-linkedin:#0a66c2;--b-line:#06c755;
+  --b-instagram-grad:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%);
+
+  /* page chrome (Clean neutrals) */
+  --c-bg:#f5f7f9;--c-surface:#ffffff;--c-surface-2:#f3f5f8;--c-ink:#0f1a24;--c-ink-2:#3a4754;--c-muted:#66737f;
+  --c-line:#e3e8ee;--c-primary:#0d7f79;--c-primary-soft:#e2f4f2;--c-on-primary:#ffffff;--c-glass:rgb(255 255 255 / .72);
+  --c-focus:#2463eb;--c-overlay:rgb(10 18 26 / .5);
+  --shadow-1:0 1px 2px rgb(15 26 36 / .05),0 1px 3px rgb(15 26 36 / .04);
+  --shadow-2:0 4px 12px rgb(15 26 36 / .06),0 1px 3px rgb(15 26 36 / .05);
+  --shadow-3:0 18px 48px -12px rgb(15 26 36 / .22),0 4px 12px rgb(15 26 36 / .06);
+  --shadow-primary:0 8px 24px -8px rgb(13 127 121 / .55);
+  --page-bg:radial-gradient(1200px 600px at 85% -10%,rgb(17 160 138 / .18),transparent 60%),radial-gradient(900px 500px at -10% 10%,rgb(224 138 30 / .12),transparent 55%),linear-gradient(180deg,#f7fbfa 0%,#f5f7f9 100%);
+
+  /* the card */
+  --card-bg:linear-gradient(135deg,#ffffff 0%,#f3faf9 100%);
+  --card-ink:#0f1a24;--card-ink-2:#3a4754;--card-muted:#66737f;--card-accent:#0d7f79;--card-accent-2:#3fb8a0;
+  --card-line:rgb(13 127 121 / .18);--card-ring:#ffffff;--card-shadow:0 30px 60px -24px rgb(15 26 36 / .35),0 8px 18px -8px rgb(15 26 36 / .18);
+  --avatar-radius:22%;
+  --fx-color:#ffffff;
+  color-scheme:light;
+}
+
+/* Sakura — soft blossom pink */
+[data-theme="sakura"]{
+  --c-bg:#fff6f9;--c-surface:#ffffff;--c-surface-2:#fff0f5;--c-ink:#3b1f2b;--c-ink-2:#6a4452;--c-muted:#9a7482;--c-line:#f6d9e3;
+  --c-primary:#d94f84;--c-primary-soft:#ffe3ee;--c-on-primary:#ffffff;--c-glass:rgb(255 255 255 / .7);
+  --shadow-primary:0 8px 24px -8px rgb(217 79 132 / .55);
+  --page-bg:radial-gradient(900px 520px at 90% -8%,rgb(255 183 210 / .55),transparent 62%),radial-gradient(800px 480px at -10% 30%,rgb(255 214 228 / .7),transparent 60%),linear-gradient(180deg,#fff9fb 0%,#fdeef4 100%);
+  --card-bg:linear-gradient(140deg,#fffafc 0%,#ffeef4 55%,#fcdbe7 100%);
+  --card-ink:#3b1f2b;--card-ink-2:#6a4452;--card-muted:#9a7482;--card-accent:#d94f84;--card-accent-2:#f49ac1;--card-line:rgb(217 79 132 / .2);
+  --card-ring:#ffffff;--card-shadow:0 30px 60px -26px rgb(160 50 95 / .45),0 8px 20px -10px rgb(160 50 95 / .25);
+  --avatar-radius:50%;--fx-color:#f7a8c6;
+}
+/* Christmas — pine green, berry red, gold */
+[data-theme="christmas"]{
+  --c-bg:#0b231c;--c-surface:#123329;--c-surface-2:#163d31;--c-ink:#fbf6ea;--c-ink-2:#dfe8df;--c-muted:#9fb7ab;--c-line:rgb(255 255 255 / .1);
+  --c-primary:#e2b04f;--c-primary-soft:rgb(226 176 79 / .16);--c-on-primary:#1d1405;--c-glass:rgb(18 51 41 / .72);
+  --shadow-1:0 1px 2px rgb(0 0 0 / .3);--shadow-2:0 6px 16px rgb(0 0 0 / .35);--shadow-3:0 18px 48px -12px rgb(0 0 0 / .6);
+  --shadow-primary:0 8px 24px -8px rgb(226 176 79 / .6);
+  --page-bg:radial-gradient(900px 520px at 85% -10%,rgb(200 50 60 / .28),transparent 60%),radial-gradient(800px 500px at -10% 20%,rgb(46 125 90 / .45),transparent 60%),linear-gradient(180deg,#0c2a21 0%,#06170f 100%);
+  --card-bg:radial-gradient(120% 140% at 0% 0%,#1b5a44 0%,#0f3b2d 45%,#0a2a20 100%);
+  --card-ink:#fbf6ea;--card-ink-2:#e8eee6;--card-muted:#b4c9bc;--card-accent:#e8bb5c;--card-accent-2:#d23b45;--card-line:rgb(232 187 92 / .32);
+  --card-ring:#e8bb5c;--card-shadow:0 30px 60px -22px rgb(0 0 0 / .7),0 8px 20px -10px rgb(0 0 0 / .45);
+  --avatar-radius:50%;--fx-color:#ffffff;
+  color-scheme:dark;
+}
+/* New Year — midnight navy, champagne gold, firework pink */
+[data-theme="newyear"]{
+  --c-bg:#070b1f;--c-surface:#10163a;--c-surface-2:#151c47;--c-ink:#f8f2e2;--c-ink-2:#dcd8ee;--c-muted:#9d9cc4;--c-line:rgb(255 255 255 / .1);
+  --c-primary:#e6c06a;--c-primary-soft:rgb(230 192 106 / .15);--c-on-primary:#1a1305;--c-glass:rgb(16 22 58 / .7);
+  --shadow-1:0 1px 2px rgb(0 0 0 / .35);--shadow-2:0 6px 16px rgb(0 0 0 / .4);--shadow-3:0 18px 48px -12px rgb(0 0 0 / .65);
+  --shadow-primary:0 8px 24px -8px rgb(230 192 106 / .6);
+  --page-bg:radial-gradient(900px 560px at 80% -10%,rgb(122 76 255 / .35),transparent 60%),radial-gradient(800px 500px at 0% 30%,rgb(255 92 160 / .18),transparent 60%),linear-gradient(180deg,#0a0f2c 0%,#04060f 100%);
+  --card-bg:radial-gradient(110% 130% at 100% 0%,#2a2a6e 0%,#141a4a 40%,#0a0e2a 100%);
+  --card-ink:#f8f2e2;--card-ink-2:#e5e1f2;--card-muted:#a9a7cf;--card-accent:#e6c06a;--card-accent-2:#ff6fae;--card-line:rgb(230 192 106 / .3);
+  --card-ring:#e6c06a;--card-shadow:0 30px 60px -22px rgb(0 0 0 / .75),0 0 0 1px rgb(230 192 106 / .18);
+  --avatar-radius:22%;--fx-color:#ffe39a;
+  color-scheme:dark;
+}
+/* Modern — the Clean platform's teal, follows the system light / dark */
+@media (prefers-color-scheme:dark){
+  [data-theme="modern"]{
+    --c-bg:#0b1218;--c-surface:#121c24;--c-surface-2:#17232d;--c-ink:#e8eef3;--c-ink-2:#b9c6d1;--c-muted:#8495a3;--c-line:#22303b;
+    --c-primary:#3fc1b0;--c-primary-soft:#0f2e2c;--c-on-primary:#04211e;--c-glass:rgb(18 28 36 / .72);
+    --shadow-1:0 1px 2px rgb(0 0 0 / .3);--shadow-2:0 6px 16px rgb(0 0 0 / .35);--shadow-3:0 18px 48px -12px rgb(0 0 0 / .6);
+    --shadow-primary:0 8px 24px -8px rgb(63 193 176 / .5);
+    --page-bg:radial-gradient(1000px 560px at 85% -10%,rgb(17 160 138 / .22),transparent 60%),radial-gradient(800px 480px at -10% 20%,rgb(224 138 30 / .1),transparent 55%),linear-gradient(180deg,#0d161d 0%,#0a1015 100%);
+    --card-bg:linear-gradient(135deg,#15222b 0%,#0f1a21 100%);
+    --card-ink:#eef3f6;--card-ink-2:#c3cfd8;--card-muted:#8fa0ad;--card-accent:#3fc1b0;--card-accent-2:#7be0cf;--card-line:rgb(63 193 176 / .25);
+    --card-ring:#1c2b35;--card-shadow:0 30px 60px -24px rgb(0 0 0 / .7),0 0 0 1px rgb(255 255 255 / .05);
+    color-scheme:dark;
+  }
+}
+
+/* ─── 2 base ─── */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html:lang(en){--font:var(--font-en)}
+html:lang(ja){--font:var(--font-ja)}
+body{margin:0;min-height:100vh;min-height:100dvh;font-family:var(--font);color:var(--c-ink);background:var(--c-bg);background-image:var(--page-bg);background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color var(--dur) var(--ease),color var(--dur) var(--ease)}
+button{font:inherit;color:inherit}
+a{color:inherit}
+img{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--c-focus);outline-offset:2px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* hidden native scrollbar; a thin soft glass thumb shows only while scrolling */
+html{scrollbar-width:none}
+html::-webkit-scrollbar{display:none}
+.glass-scroll{position:fixed;top:0;right:3px;z-index:60;width:5px;height:40px;border-radius:var(--radius-pill);pointer-events:none;
+  background:color-mix(in srgb,var(--c-ink) 20%,transparent);backdrop-filter:blur(10px) saturate(1.4);-webkit-backdrop-filter:blur(10px) saturate(1.4);
+  box-shadow:inset 0 0 0 1px rgb(255 255 255 / .28),0 2px 8px rgb(0 0 0 / .08);opacity:0;transition:opacity .45s var(--ease)}
+.glass-scroll.on{opacity:1;transition-duration:.15s}
+
+/* ─── 3 page layout ─── */
+.page{position:relative;z-index:1;width:min(100% - 32px,600px);margin-inline:auto;padding-block:max(14px,env(safe-area-inset-top)) 40px;display:flex;flex-direction:column;gap:var(--space-5)}
+
+/* top bar — a floating glass pill */
+.bar{position:sticky;top:10px;z-index:20;display:flex;align-items:center;gap:var(--space-2);padding:6px;border-radius:var(--radius-pill);background:var(--c-glass);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border:1px solid var(--c-line);box-shadow:var(--shadow-2)}
+.bar .grow{flex:1}
+.seg{display:inline-flex;gap:2px;padding:3px;border-radius:var(--radius-pill);background:var(--c-surface-2)}
+.seg button{min-width:40px;height:34px;white-space:nowrap;padding:0 10px;border:0;border-radius:var(--radius-pill);background:transparent;color:var(--c-muted);font-size:var(--text-xs);font-weight:700;cursor:pointer;transition:background var(--dur-fast),color var(--dur-fast)}
+.seg button:hover{color:var(--c-ink)}
+.seg button[aria-pressed="true"]{background:var(--c-surface);color:var(--c-primary);box-shadow:var(--shadow-1)}
+.ibtn{position:relative;display:inline-grid;place-items:center;width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:var(--c-ink-2);font-size:15px;cursor:pointer;transition:background var(--dur-fast),color var(--dur-fast),transform var(--dur-fast)}
+.ibtn:hover{background:var(--c-primary-soft);color:var(--c-primary);transform:translateY(-1px)}
+.pop{position:absolute;top:calc(100% + 8px);inset-inline-end:0;display:flex;gap:8px;padding:8px;border-radius:var(--radius-pill);background:var(--c-surface);border:1px solid var(--c-line);box-shadow:var(--shadow-3);animation:fadeUp var(--dur) var(--ease)}
+.swatch{width:34px;height:34px;border-radius:50%;border:2px solid var(--c-surface);box-shadow:0 0 0 1px var(--c-line);cursor:pointer;transition:transform var(--dur-fast) var(--ease-spring)}
+.swatch:hover{transform:scale(1.08)}
+.swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--c-primary)}
+.swatch[data-t="sakura"]{background:linear-gradient(135deg,#ffe4ee,#f49ac1)}
+.swatch[data-t="christmas"]{background:linear-gradient(135deg,#1b5a44 50%,#d23b45 50%)}
+.swatch[data-t="newyear"]{background:radial-gradient(circle at 70% 30%,#e6c06a 0 22%,#141a4a 24%)}
+.swatch[data-t="modern"]{background:linear-gradient(135deg,#0d7f79,#3fb8a0)}
+
+/* ─── 4 the card (sizes in container units: it prints at 91 × 55 mm) ─── */
+.card-wrap{container-type:inline-size;width:100%;perspective:1200px}
+.card{
+  --fs-name:5.3cqw;--fs-title:3cqw;--fs-company:2.7cqw;--fs-contact:2.6cqw;--fs-cap:1.9cqw;
+  position:relative;isolation:isolate;overflow:hidden;aspect-ratio:91/55;width:100%;
+  display:flex;flex-direction:column;padding:4.6cqw 5.2cqw;border-radius:4.2cqw;
+  color:var(--card-ink);background:var(--card-bg);box-shadow:var(--card-shadow);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);transform-style:preserve-3d;
+  animation:cardIn .8s var(--ease) both;
+}
+@media (hover:hover){.card:hover{transform:translateY(-4px) rotateX(2deg)}}
+.card::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;
+  background:linear-gradient(115deg,transparent 30%,rgb(255 255 255 / .28) 45%,transparent 60%);background-size:250% 100%;background-position:120% 0;animation:shine 2.6s 0.6s var(--ease) both}
+.decor{position:absolute;inset:0;z-index:0;pointer-events:none}
+.decor svg{position:absolute}
+.card-top,.card-body{position:relative;z-index:1}
+.card-top{display:flex;align-items:center;justify-content:space-between;min-height:0;margin-bottom:2.4cqw}
+.card-top img{height:7cqw;max-width:34cqw;object-fit:contain;object-position:var(--logo-pos,right)}
+html[dir="ltr"] .card-top img{--logo-pos:left}
+.card-body{flex:1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:3.4cqw;min-height:0}
+.avatar{width:19cqw;aspect-ratio:1;border-radius:var(--avatar-radius);overflow:hidden;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--card-accent),var(--card-accent-2));color:#fff;font-weight:800;font-size:7.5cqw;
+  box-shadow:0 0 0 .7cqw var(--card-ring),0 2cqw 4cqw -1.5cqw rgb(0 0 0 / .35)}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.info{min-width:0;display:flex;flex-direction:column}
+.name{margin:0;font-size:var(--fs-name);font-weight:800;line-height:1.25;letter-spacing:-.01em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.role{margin:.6cqw 0 0;font-size:var(--fs-title);font-weight:600;color:var(--card-accent);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.company{margin:.2cqw 0 0;font-size:var(--fs-company);color:var(--card-muted);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rule{width:11cqw;height:.45cqw;border-radius:1cqw;margin:2cqw 0 1.8cqw;background:linear-gradient(90deg,var(--card-accent),var(--card-accent-2))}
+.contacts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9cqw}
+.contacts a{display:flex;align-items:center;gap:1.4cqw;min-width:0;font-size:var(--fs-contact);color:var(--card-ink-2);text-decoration:none;font-weight:500}
+.contacts a:hover{color:var(--card-accent)}
+.contacts i{width:2.8cqw;flex:none;text-align:center;font-size:2.3cqw;color:var(--card-accent)}
+.contacts span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.qr{display:flex;flex-direction:column;align-items:center;gap:.9cqw}
+.qr-box{width:19cqw;aspect-ratio:1;padding:1.3cqw;border-radius:2.2cqw;background:#fff;box-shadow:0 1.5cqw 3cqw -1.5cqw rgb(0 0 0 / .35);display:grid;place-items:center;color:#9aa5af}
+.qr-box svg{width:100%;height:100%;display:block}
+.qr-cap{font-size:var(--fs-cap);color:var(--card-muted);font-weight:600;letter-spacing:.02em;white-space:nowrap}
+@media screen and (max-width:480px){.card{--fs-contact:max(2.6cqw,10px);--fs-company:max(2.7cqw,10.5px);--fs-title:max(3cqw,11px);--fs-cap:max(1.9cqw,8.5px)}}
+
+/* ─── 5 floating tab bar (Qarn tabs: a click opens, a click on the open tab closes) ─── */
+.tabs{display:flex;flex-wrap:nowrap;gap:5px;padding:5px;margin-inline:auto;max-width:100%;overflow-x:auto;scrollbar-width:none;border-radius:var(--radius-pill);background:var(--c-glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--c-line);box-shadow:var(--shadow-2)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;min-height:var(--touch);padding:0 18px;border:0;border-radius:var(--radius-pill);background:transparent;color:var(--c-muted);font-size:var(--text-s);font-weight:700;white-space:nowrap;cursor:pointer;transition:background var(--dur-fast),color var(--dur-fast),transform var(--dur-fast)}
+.tab:hover{color:var(--c-ink);background:var(--c-primary-soft)}
+.tab[aria-expanded="true"]{background:var(--c-primary);color:var(--c-on-primary);box-shadow:var(--shadow-primary);transform:translateY(-1px)}
+.tab .chev{font-size:10px;transition:transform var(--dur) var(--ease)}
+.tab[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.count{min-width:20px;height:20px;padding:0 6px;display:inline-grid;place-items:center;border-radius:var(--radius-pill);background:var(--c-primary-soft);color:var(--c-primary);font-size:11px}
+.tab[aria-expanded="true"] .count{background:rgb(255 255 255 / .25);color:inherit}
+.panel{padding:var(--space-4);border-radius:var(--radius-l);background:var(--c-surface);border:1px solid var(--c-line);box-shadow:var(--shadow-2);animation:fadeUp var(--dur) var(--ease)}
+
+/* social row — horizontal, scroll hidden */
+.social{display:flex;gap:var(--space-3);overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity;padding:4px 10px 2px;margin:-4px -10px -2px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent);mask-image:linear-gradient(90deg,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
+.social::-webkit-scrollbar{display:none}
+.soc{flex:0 0 auto;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:6px;width:68px;padding:0;border:0;background:none;text-decoration:none;color:var(--c-ink-2);font-size:11px;font-weight:600;cursor:pointer}
+.soc .ico{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:24px;color:#fff;background:var(--b);box-shadow:0 8px 18px -8px var(--b),inset 0 1px 0 rgb(255 255 255 / .25);transition:transform var(--dur) var(--ease-spring),box-shadow var(--dur) var(--ease)}
+.soc:hover .ico,.soc:focus-visible .ico{transform:translateY(-3px) scale(1.04)}
+.soc[data-k="youtube"]{--b:var(--b-youtube)}
+.soc[data-k="instagram"]{--b:var(--b-instagram)}
+.soc[data-k="instagram"] .ico{background:var(--b-instagram-grad)}
+.soc[data-k="tiktok"]{--b:var(--b-tiktok)}
+.soc[data-k="tiktok"] .ico{text-shadow:-1.5px -1px 0 #25f4ee,1.5px 1px 0 #fe2c55}
+.soc[data-k="github"]{--b:var(--b-github)}
+.soc[data-k="linkedin"]{--b:var(--b-linkedin)}
+.soc[data-k="line"]{--b:var(--b-line)}
+
+/* projects */
+.projects{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--space-2)}
+.proj{display:flex;align-items:center;gap:var(--space-3);min-height:60px;padding:10px 12px;border-radius:var(--radius-m);text-decoration:none;color:var(--c-ink);background:var(--c-surface-2);border:1px solid transparent;transition:border-color var(--dur-fast),transform var(--dur-fast),background var(--dur-fast)}
+.proj:hover{border-color:var(--c-primary);transform:translateY(-1px)}
+.proj .ptile{width:40px;height:40px;flex:none;border-radius:12px;display:grid;place-items:center;background:var(--c-primary-soft);color:var(--c-primary);font-size:16px}
+.proj .ptext{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.4}
+.proj b{font-size:var(--text-s);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.proj small{color:var(--c-muted);font-size:var(--text-xs);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.proj .go{color:var(--c-muted);font-size:12px}
+html[dir="rtl"] .proj .go{transform:scaleX(-1)}
+.empty{margin:0;padding:var(--space-4);text-align:center;color:var(--c-muted);font-size:var(--text-s)}
+
+.foot{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px;text-align:center;color:var(--c-muted);font-size:var(--text-xs);margin-top:var(--space-2)}
+.foot b{color:var(--c-primary);font-family:var(--font-en);font-weight:800;letter-spacing:.02em}
+.foot .sep{opacity:.5}
+
+/* LINE sheet */
+dialog.sheet{width:min(100% - 32px,360px);padding:0;border:0;border-radius:var(--radius-xl);background:var(--c-surface);color:var(--c-ink);box-shadow:var(--shadow-3)}
+dialog.sheet::backdrop{background:var(--c-overlay);backdrop-filter:blur(3px)}
+dialog.sheet[open]{animation:fadeUp var(--dur) var(--ease)}
+.sheet-in{display:flex;flex-direction:column;align-items:center;gap:var(--space-3);padding:var(--space-5)}
+.sheet-head{display:flex;align-items:center;gap:10px;align-self:stretch}
+.sheet-head .ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--b-line);color:#fff;font-size:20px}
+.sheet-head b{flex:1}
+.line-qr{width:200px;aspect-ratio:1;padding:12px;border-radius:var(--radius-l);background:#fff;border:1px solid var(--c-line)}
+.line-qr svg,.line-qr img{width:100%;height:100%;object-fit:contain}
+.idrow{display:flex;align-items:center;gap:8px;align-self:stretch;padding:6px 6px 6px 14px;border-radius:var(--radius-pill);background:var(--c-surface-2)}
+html[dir="rtl"] .idrow{padding:6px 14px 6px 6px}
+.idrow code{flex:1;font-family:var(--font-en);font-weight:700;font-size:var(--text-m);overflow:hidden;text-overflow:ellipsis}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:var(--touch);padding:0 18px;border:0;border-radius:var(--radius-pill);font-weight:700;font-size:var(--text-s);text-decoration:none;cursor:pointer;background:var(--c-surface-2);color:var(--c-ink);transition:transform var(--dur-fast),filter var(--dur-fast)}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.btn.sm{min-height:36px;padding:0 14px;font-size:var(--text-xs)}
+.btn.line{align-self:stretch;background:var(--b-line);color:#fff;box-shadow:0 8px 20px -8px var(--b-line)}
+
+.toast{position:fixed;bottom:max(20px,env(safe-area-inset-bottom));left:50%;z-index:50;transform:translateX(-50%);padding:10px 18px;border-radius:var(--radius-pill);background:var(--c-ink);color:var(--c-bg);font-size:var(--text-s);font-weight:600;box-shadow:var(--shadow-3);animation:fadeUp var(--dur) var(--ease)}
+
+/* ─── 6 seasonal effects layer ─── */
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.fx i{position:absolute;top:-6vh;display:block;opacity:.85;animation:fall linear infinite}
+[data-theme="sakura"] .fx i{width:var(--s);height:calc(var(--s) * .72);background:var(--fx-color);border-radius:100% 0 100% 0 / 100% 0 100% 0;opacity:.75;animation-name:petal}
+[data-theme="christmas"] .fx i{width:calc(var(--s) * .5);height:calc(var(--s) * .5);background:var(--fx-color);border-radius:50%;filter:blur(.3px)}
+[data-theme="newyear"] .fx i{top:var(--y);width:var(--s);height:var(--s);background:var(--fx-color);clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);animation-name:twinkle;animation-timing-function:ease-in-out}
+[data-theme="modern"] .fx{display:none}
+
+/* ─── 7 motion ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes cardIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes shine{to{background-position:-60% 0}}
+@keyframes fall{to{transform:translate3d(var(--dx),110vh,0)}}
+@keyframes petal{0%{transform:translate3d(0,0,0) rotate(0)}50%{transform:translate3d(calc(var(--dx) * .5),55vh,0) rotate(200deg)}100%{transform:translate3d(var(--dx),110vh,0) rotate(400deg)}}
+@keyframes twinkle{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.fx{display:none}}
+
+/* ─── 8 print: only the card, at business-card size ─── */
+@media print{
+  @page{size:91mm 55mm;margin:0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact;animation:none!important;transition:none!important}
+  html,body{width:91mm;height:55mm;margin:0;padding:0;overflow:hidden;background:none!important}
+  .fx,.bar,.tabs,.panel,.foot,dialog,.toast,.glass-scroll{display:none!important}
+  .page{width:91mm;margin:0;padding:0;display:block}
+  .card-wrap{width:91mm}
+  .card{width:91mm;height:55mm;aspect-ratio:auto;border-radius:0;box-shadow:none;transform:none!important}
+  .card::after{display:none}
+}
+</style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="lang">
-      <button id="lang-fa" aria-label="فارسی">فارسی</button>
-      <button id="lang-en" aria-label="English">English</button>
+<div class="fx" id="fx" aria-hidden="true"></div>
+
+<main class="page">
+  <!-- top bar -->
+  <nav class="bar" aria-label="tools">
+    <div class="seg" id="langs" role="group"></div>
+    <span class="grow"></span>
+    <div style="position:relative" id="themeBox">
+      <button class="ibtn" id="themeBtn" type="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-palette"></i></button>
+      <div class="pop" id="themePop" hidden></div>
     </div>
+    <button class="ibtn" id="vcfBtn" type="button"><i class="fa-solid fa-address-book"></i></button>
+    <button class="ibtn" id="shareBtn" type="button"><i class="fa-solid fa-share-nodes"></i></button>
+    <button class="ibtn" id="printBtn" type="button"><i class="fa-solid fa-print"></i></button>
   </nav>
 
-  <main class="container">
-    <section id="hero-fa" class="hero" data-lang="fa">
-      <img src="https://github.com/saberzul.png" alt="saberzul" class="avatar"/>
-      <h1>سلام، من saberzul</h1>
-      <p>توسعه‌دهندهٔ فول‌استک — React · Node · Go</p>
-      <p><a href="#projects">پروژه‌ها</a> · <a href="#contact">تماس</a></p>
-    </section>
+  <!-- the card -->
+  <div class="card-wrap">
+    <article class="card" id="card">
+      <div class="decor" id="decor" aria-hidden="true"></div>
+      <header class="card-top" id="cardTop"><img id="logo" alt=""></header>
+      <div class="card-body">
+        <div class="avatar" id="avatar"></div>
+        <div class="info">
+          <h1 class="name" id="name"></h1>
+          <p class="role" id="role"></p>
+          <p class="company" id="company"></p>
+          <span class="rule" aria-hidden="true"></span>
+          <ul class="contacts" id="contacts"></ul>
+        </div>
+        <div class="qr" id="qr">
+          <div class="qr-box" id="qrBox"><i class="fa-solid fa-qrcode"></i></div>
+          <span class="qr-cap" id="qrCap"></span>
+        </div>
+      </div>
+    </article>
+  </div>
 
-    <section id="hero-en" class="hero" data-lang="en" style="display:none">
-      <img src="https://github.com/saberzul.png" alt="saberzul" class="avatar"/>
-      <h1>Hi — I'm saberzul</h1>
-      <p>Full‑stack Developer — React · Node · Go</p>
-      <p><a href="#projects">Projects</a> · <a href="#contact">Contact</a></p>
-    </section>
+  <!-- tabs under the card -->
+  <div class="tabs" role="tablist" id="tabs">
+    <button class="tab" type="button" data-tab="social" aria-controls="panel-social"><i class="fa-solid fa-share-nodes"></i><span></span><i class="fa-solid fa-chevron-down chev"></i></button>
+    <button class="tab" type="button" data-tab="projects" aria-controls="panel-projects"><i class="fa-solid fa-folder-open"></i><span></span><b class="count" id="projCount">0</b><i class="fa-solid fa-chevron-down chev"></i></button>
+  </div>
+  <section class="panel" id="panel-social" role="region" hidden><div class="social" id="social"></div></section>
+  <section class="panel" id="panel-projects" role="region" hidden><ul class="projects" id="projects"></ul></section>
 
-    <section id="projects">
-      <h2 data-lang="fa">پروژه‌ها</h2>
-      <h2 data-lang="en" style="display:none">Projects</h2>
-      <ul>
-        <li>
-          <a href="https://github.com/saberzul/project-a">Project A</a> —
-          <span data-lang="fa">توضیح کوتاه پروژه A</span>
-          <span data-lang="en" style="display:none">Short description of Project A</span>
-        </li>
-        <li>
-          <a href="https://github.com/saberzul/project-b">Project B</a> —
-          <span data-lang="fa">توضیح کوتاه پروژه B</span>
-          <span data-lang="en" style="display:none">Short description of Project B</span>
-        </li>
-      </ul>
-    </section>
+  <footer class="foot" id="foot"></footer>
+</main>
 
-    <section id="contact">
-      <h2 data-lang="fa">تماس</h2>
-      <h2 data-lang="en" style="display:none">Contact</h2>
-      <p data-lang="fa">ایمیل: yourname@example.com</p>
-      <p data-lang="en" style="display:none">Email: yourname@example.com</p>
-      <p><a href="https://github.com/saberzul">GitHub</a> · <a href="https://linkedin.com/in/yourprofile">LinkedIn</a></p>
-    </section>
+<dialog class="sheet" id="lineSheet">
+  <div class="sheet-in">
+    <div class="sheet-head"><span class="ico"><i class="fa-brands fa-line"></i></span><b>LINE</b>
+      <button class="ibtn" type="button" id="lineClose"><i class="fa-solid fa-xmark"></i></button></div>
+    <div class="line-qr" id="lineQr"></div>
+    <div class="idrow" id="lineIdRow"><code class="ltr" id="lineId"></code><button class="btn sm" type="button" id="lineCopy"><i class="fa-regular fa-copy"></i><span></span></button></div>
+    <a class="btn line" id="lineOpen" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-line"></i><span></span></a>
+  </div>
+</dialog>
 
-    <footer>
-      <p>© 2026 saberzul</p>
-    </footer>
-  </main>
+<!-- card decorations, one per theme (static art, no data) -->
+<template id="decor-sakura">
+  <svg viewBox="0 0 200 200" style="width:44cqw;inset-inline-end:-10cqw;top:-12cqw;opacity:.9">
+    <defs><g id="sk"><path d="M0 0C-7-9-6-21 0-26l2 4 2-4C10-21 7-9 0 0Z"/></g>
+      <g id="flw"><use href="#sk"/><use href="#sk" transform="rotate(72)"/><use href="#sk" transform="rotate(144)"/><use href="#sk" transform="rotate(216)"/><use href="#sk" transform="rotate(288)"/><circle r="4" fill="#fff6c2"/></g></defs>
+    <path d="M200 10C160 30 120 40 70 90" stroke="#8a5a4a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+    <path d="M140 38c-6 18-2 30 6 40" stroke="#8a5a4a" stroke-width="2" fill="none" opacity=".45"/>
+    <g fill="#f7a8c6"><use href="#flw" transform="translate(110 55) scale(1.2)"/><use href="#flw" transform="translate(150 90) scale(.9) rotate(20)"/><use href="#flw" transform="translate(72 92) scale(.75) rotate(-15)"/></g>
+    <g fill="#fbc9dc"><use href="#flw" transform="translate(178 40) scale(.7) rotate(35)"/><use href="#flw" transform="translate(135 20) scale(.55)"/></g>
+  </svg>
+  <svg viewBox="0 0 100 100" style="width:22cqw;inset-inline-start:-6cqw;bottom:-7cqw;opacity:.55"><g fill="#f49ac1"><use href="#flw" transform="translate(50 50) scale(1.4) rotate(12)"/></g></svg>
+</template>
+<template id="decor-christmas">
+  <svg viewBox="0 0 100 60" preserveAspectRatio="none" style="inset:0;width:100%;height:100%;opacity:.5">
+    <g fill="#fff"><circle cx="8" cy="10" r=".5"/><circle cx="20" cy="50" r=".4"/><circle cx="35" cy="6" r=".35"/><circle cx="48" cy="54" r=".45"/><circle cx="62" cy="8" r=".3"/><circle cx="76" cy="56" r=".4"/><circle cx="90" cy="30" r=".35"/><circle cx="55" cy="30" r=".25"/><circle cx="14" cy="32" r=".3"/></g>
+  </svg>
+  <!-- sakura branch (top corner) and one blossom (bottom corner), tuned for the pine-green card -->
+  <svg viewBox="0 0 200 200" style="width:44cqw;inset-inline-end:-10cqw;top:-12cqw;opacity:.92">
+    <defs><g id="sk"><path d="M0 0C-7-9-6-21 0-26l2 4 2-4C10-21 7-9 0 0Z"/></g>
+      <g id="flw"><use href="#sk"/><use href="#sk" transform="rotate(72)"/><use href="#sk" transform="rotate(144)"/><use href="#sk" transform="rotate(216)"/><use href="#sk" transform="rotate(288)"/><circle r="4" fill="#e8bb5c"/></g></defs>
+    <path d="M200 10C160 30 120 40 70 90" stroke="#c9a36a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".5"/>
+    <path d="M140 38c-6 18-2 30 6 40" stroke="#c9a36a" stroke-width="2" fill="none" opacity=".4"/>
+    <g fill="#f5b3cc"><use href="#flw" transform="translate(110 55) scale(1.2)"/><use href="#flw" transform="translate(150 90) scale(.9) rotate(20)"/><use href="#flw" transform="translate(72 92) scale(.75) rotate(-15)"/></g>
+    <g fill="#fde3ec"><use href="#flw" transform="translate(178 40) scale(.7) rotate(35)"/><use href="#flw" transform="translate(135 20) scale(.55)"/></g>
+  </svg>
+  <svg viewBox="0 0 100 100" style="width:22cqw;inset-inline-start:-6cqw;bottom:-7cqw;opacity:.75"><g fill="#f5b3cc"><use href="#flw" transform="translate(50 50) scale(1.4) rotate(12)"/></g></svg>
+</template>
+<template id="decor-newyear">
+  <!-- sakura branch (top corner) and one blossom (bottom corner), tuned for the midnight-navy card -->
+  <svg viewBox="0 0 200 200" style="width:44cqw;inset-inline-end:-10cqw;top:-12cqw;opacity:.92">
+    <defs><g id="sk"><path d="M0 0C-7-9-6-21 0-26l2 4 2-4C10-21 7-9 0 0Z"/></g>
+      <g id="flw"><use href="#sk"/><use href="#sk" transform="rotate(72)"/><use href="#sk" transform="rotate(144)"/><use href="#sk" transform="rotate(216)"/><use href="#sk" transform="rotate(288)"/><circle r="4" fill="#e6c06a"/></g></defs>
+    <path d="M200 10C160 30 120 40 70 90" stroke="#d9b45a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+    <path d="M140 38c-6 18-2 30 6 40" stroke="#d9b45a" stroke-width="2" fill="none" opacity=".45"/>
+    <g fill="#ffb7d2"><use href="#flw" transform="translate(110 55) scale(1.2)"/><use href="#flw" transform="translate(150 90) scale(.9) rotate(20)"/><use href="#flw" transform="translate(72 92) scale(.75) rotate(-15)"/></g>
+    <g fill="#ffe1ec"><use href="#flw" transform="translate(178 40) scale(.7) rotate(35)"/><use href="#flw" transform="translate(135 20) scale(.55)"/></g>
+  </svg>
+  <svg viewBox="0 0 100 100" style="width:22cqw;inset-inline-start:-6cqw;bottom:-7cqw;opacity:.75"><g fill="#ffb7d2"><use href="#flw" transform="translate(50 50) scale(1.4) rotate(12)"/></g></svg>
+  <div style="position:absolute;inset-inline:0;bottom:0;height:1cqw;background:linear-gradient(90deg,transparent,#e6c06a,transparent);opacity:.7"></div>
+</template>
+<template id="decor-modern">
+  <div style="position:absolute;width:60cqw;aspect-ratio:1;border-radius:50%;inset-inline-end:-26cqw;top:-34cqw;background:radial-gradient(circle at 30% 70%,var(--card-accent-2),var(--card-accent));opacity:.16;filter:blur(1px)"></div>
+  <div style="position:absolute;width:30cqw;aspect-ratio:1;border-radius:50%;inset-inline-start:-12cqw;bottom:-16cqw;border:.5cqw solid var(--card-accent);opacity:.12"></div>
+  <svg viewBox="0 0 100 60" preserveAspectRatio="none" style="inset:0;width:100%;height:100%;opacity:.06"><g stroke="currentColor" stroke-width=".15"><path d="M0 15H100M0 30H100M0 45H100M20 0V60M40 0V60M60 0V60M80 0V60"/></g></svg>
+  <div style="position:absolute;inset-block:0;inset-inline-start:0;width:1.1cqw;background:linear-gradient(180deg,var(--card-accent),var(--card-accent-2))"></div>
+</template>
 
-  <script>
-    const setLang = (lang) => {
-      document.querySelectorAll('[data-lang="fa"]').forEach(e => e.style.display = lang==='fa' ? '' : 'none');
-      document.querySelectorAll('[data-lang="en"]').forEach(e => e.style.display = lang==='en' ? '' : 'none');
-      // RTL for Persian
-      document.documentElement.dir = lang==='fa' ? 'rtl' : 'ltr';
-      document.documentElement.lang = lang==='fa' ? 'fa' : 'en';
+<script>
+(() => {
+  'use strict';
+
+  /* ── data ─────────────────────────────────────────────────────────── */
+  const readData = () => { try { return JSON.parse(document.getElementById('card-data').textContent); } catch (e) { console.error('card-data JSON', e); return {}; } };
+  let D = readData();
+
+  const LANGS = { fa: { label: 'فا', dir: 'rtl' }, en: { label: 'EN', dir: 'ltr' }, ja: { label: '日本', dir: 'ltr' } };
+  const THEMES = ['sakura', 'christmas', 'newyear', 'modern'];
+  const T = {
+    fa: { social: 'شبکه‌های اجتماعی', projects: 'پروژه‌ها', scanPage: 'اسکن کنید', scanVcard: 'ذخیرهٔ مخاطب', theme: 'طرح', vcf: 'ذخیرهٔ مخاطب', share: 'اشتراک‌گذاری', print: 'چاپ کارت', copy: 'کپی', copied: 'کپی شد', openLine: 'افزودن در LINE', close: 'بستن', noSocial: 'هنوز شبکهٔ اجتماعی‌ای اضافه نشده است.', noProjects: 'هنوز پروژه‌ای اضافه نشده است.', linkCopied: 'لینک کارت کپی شد', themes: { sakura: 'ساکورا', christmas: 'کریسمس', newyear: 'سال نو', modern: 'مدرن' }, net: { youtube: 'یوتیوب', instagram: 'اینستاگرام', tiktok: 'تیک‌تاک', github: 'گیت‌هاب', linkedin: 'لینکدین', line: 'لاین' } },
+    en: { social: 'Social', projects: 'Projects', scanPage: 'Scan me', scanVcard: 'Save contact', theme: 'Design', vcf: 'Save contact', share: 'Share', print: 'Print card', copy: 'Copy', copied: 'Copied', openLine: 'Add on LINE', close: 'Close', noSocial: 'No social links yet.', noProjects: 'No projects yet.', linkCopied: 'Card link copied', themes: { sakura: 'Sakura', christmas: 'Christmas', newyear: 'New Year', modern: 'Modern' }, net: { youtube: 'YouTube', instagram: 'Instagram', tiktok: 'TikTok', github: 'GitHub', linkedin: 'LinkedIn', line: 'LINE' } },
+    ja: { social: 'SNS', projects: 'プロジェクト', scanPage: 'スキャン', scanVcard: '連絡先を保存', theme: 'デザイン', vcf: '連絡先を保存', share: '共有', print: '名刺を印刷', copy: 'コピー', copied: 'コピーしました', openLine: 'LINEで追加', close: '閉じる', noSocial: 'SNSリンクはまだありません。', noProjects: 'プロジェクトはまだありません。', linkCopied: 'リンクをコピーしました', themes: { sakura: '桜', christmas: 'クリスマス', newyear: 'お正月', modern: 'モダン' }, net: { youtube: 'YouTube', instagram: 'Instagram', tiktok: 'TikTok', github: 'GitHub', linkedin: 'LinkedIn', line: 'LINE' } },
+  };
+  const NETS = {
+    youtube:   { icon: 'fa-youtube',    base: 'https://www.youtube.com/@' },
+    instagram: { icon: 'fa-instagram',  base: 'https://www.instagram.com/' },
+    tiktok:    { icon: 'fa-tiktok',     base: 'https://www.tiktok.com/@' },
+    github:    { icon: 'fa-github',     base: 'https://github.com/' },
+    linkedin:  { icon: 'fa-linkedin-in',base: 'https://www.linkedin.com/in/' },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const store = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch { /* private mode */ } } };
+  const params = new URLSearchParams(location.search);
+  const PREVIEW = params.has('preview') && window.parent !== window;
+
+  /* DOM builder — no innerHTML for data (XSS guard), links pass a URL guard */
+  function h(tag, attrs = {}, ...kids) {
+    const el = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === 'class') el.className = v;
+      else if (k === 'text') el.textContent = v;
+      else if (k.startsWith('on')) el.addEventListener(k.slice(2), v);
+      else if (k === 'href' || k === 'src') el.setAttribute(k, safeUrl(v, k === 'src'));
+      else el.setAttribute(k, v === true ? '' : v);
+    }
+    for (const kid of kids.flat()) if (kid != null && kid !== false) el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+    return el;
+  }
+  const fa = (cls) => h('i', { class: cls, 'aria-hidden': 'true' });
+  function safeUrl(u, isImg) {
+    const s = String(u || '').trim();
+    if (!s) return '#';
+    if (isImg && /^data:image\/(png|jpe?g|webp|gif|svg\+xml);base64,/i.test(s)) return s;
+    if (/^(https?:|mailto:|tel:)/i.test(s)) return s;
+    if (/^[a-z][a-z0-9+.-]*:/i.test(s)) return '#';          // javascript:, data: … refused
+    return s;                                                   // relative path inside the repo (images/me.jpg)
+  }
+
+  /* ── state ────────────────────────────────────────────────────────── */
+  const langs = () => (Array.isArray(D.languages) && D.languages.length ? D.languages : ['fa', 'en', 'ja']).filter((l) => LANGS[l]);
+  let lang, theme, openTab = 'social';
+  function pickLang() {
+    const want = [params.get('lang'), PREVIEW ? null : store.get('card_lang'), D.defaultLang, (navigator.language || '').slice(0, 2)];
+    return want.find((l) => l && langs().includes(l)) || langs()[0];
+  }
+  function pickTheme() {
+    const want = [params.get('theme'), D.allowThemeSwitch && !PREVIEW ? store.get('card_theme') : null, D.theme];
+    return want.find((t) => THEMES.includes(t)) || 'sakura';
+  }
+  const tr = (k) => (T[lang] || T.en)[k];
+  const pick = (obj) => {
+    if (obj == null) return '';
+    if (typeof obj === 'string') return obj;
+    return obj[lang] || obj[D.defaultLang] || langs().map((l) => obj[l]).find(Boolean) || Object.values(obj).find(Boolean) || '';
+  };
+
+  /* ── QR (qrcode-generator, UTF-8) ─────────────────────────────────── */
+  function qrSvg(text) {
+    if (!text || typeof window.qrcode !== 'function') return null;
+    window.qrcode.stringToBytes = (s) => Array.from(new TextEncoder().encode(s));
+    let qr;
+    try { qr = window.qrcode(0, 'M'); qr.addData(text, 'Byte'); qr.make(); } catch (e) { console.warn('QR', e); return null; }
+    const n = qr.getModuleCount();
+    let d = '';
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${n} ${n}`);
+    svg.setAttribute('shape-rendering', 'crispEdges');
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'QR');
+    const p = document.createElementNS(NS, 'path');
+    p.setAttribute('d', d); p.setAttribute('fill', '#111');
+    svg.append(p);
+    return svg;
+  }
+  const pageUrl = () => (D.pageUrl || '').trim() || (location.protocol.startsWith('http') ? location.origin + location.pathname : '');
+  function vcard() {
+    const esc = (s) => String(s || '').replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n');
+    const lines = ['BEGIN:VCARD', 'VERSION:3.0', `N:;${esc(pick(D.name))};;;`, `FN:${esc(pick(D.name))}`];
+    if (pick(D.company)) lines.push(`ORG:${esc(pick(D.company))}`);
+    if (pick(D.title)) lines.push(`TITLE:${esc(pick(D.title))}`);
+    if (D.phone) lines.push(`TEL;TYPE=CELL:${esc(D.phone)}`);
+    if (D.email) lines.push(`EMAIL:${esc(D.email)}`);
+    if (D.website) lines.push(`URL:${esc(D.website)}`);
+    if (pageUrl() && pageUrl() !== D.website) lines.push(`URL:${esc(pageUrl())}`);
+    lines.push('END:VCARD');
+    return lines.join('\r\n');
+  }
+  function qrText() {
+    const m = D.qr?.mode || 'page';
+    if (m === 'vcard') return vcard();
+    if (m === 'custom') return (D.qr?.value || '').trim() || pageUrl() || D.website || '';
+    return pageUrl() || D.website || '';
+  }
+
+  /* ── helpers ──────────────────────────────────────────────────────── */
+  const socialUrl = (k, v) => {
+    const s = String(v || '').trim();
+    if (!s) return '';
+    if (/^https?:\/\//i.test(s)) return s;
+    if (/^[\w.-]+\.[a-z]{2,}\//i.test(s)) return 'https://' + s;
+    return NETS[k].base + s.replace(/^@/, '');
+  };
+  const lineUrl = () => (D.line?.url || '').trim() || (D.line?.id ? 'https://line.me/ti/p/~' + encodeURIComponent(D.line.id.replace(/^@/, '')) : '');
+  const prettyUrl = (u) => String(u || '').replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, '');
+  const initials = (n) => String(n || '?').trim().split(/\s+/).slice(0, 2).map((w) => [...w][0] || '').join('').toUpperCase() || '?';
+  let toastTimer;
+  function toast(msg) {
+    document.querySelector('.toast')?.remove();
+    const t = h('div', { class: 'toast', role: 'status', text: msg });
+    document.body.append(t);
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => t.remove(), 2200);
+  }
+  async function copy(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch { const ta = h('textarea', {}); ta.value = text; document.body.append(ta); ta.select(); document.execCommand('copy'); ta.remove(); }
+    toast(tr('copied'));
+  }
+
+  /* ── render ───────────────────────────────────────────────────────── */
+  function renderShell() {
+    const root = document.documentElement;
+    root.lang = lang; root.dir = LANGS[lang].dir; root.dataset.theme = theme;
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = { sakura: '#fde8ef', christmas: '#0c2a21', newyear: '#0a0f2c', modern: '#f5f7f9' }[theme];
+    document.title = [pick(D.name), pick(D.title)].filter(Boolean).join(' — ') || 'Business Card';
+
+    const seg = $('langs'); seg.replaceChildren();
+    seg.hidden = langs().length < 2;
+    langs().forEach((l) => seg.append(h('button', { type: 'button', lang: l, 'aria-pressed': String(l === lang), onclick: () => setLang(l) }, LANGS[l].label)));
+
+    $('themeBox').hidden = !D.allowThemeSwitch;
+    $('themeBtn').title = $('themeBtn').ariaLabel = tr('theme');
+    const pop = $('themePop'); pop.replaceChildren();
+    THEMES.forEach((t) => pop.append(h('button', { type: 'button', class: 'swatch', 'data-t': t, title: tr('themes')[t], 'aria-label': tr('themes')[t], 'aria-pressed': String(t === theme), onclick: () => { setTheme(t); togglePop(false); } })));
+    [['vcfBtn', 'vcf'], ['shareBtn', 'share'], ['printBtn', 'print']].forEach(([id, k]) => { $(id).title = tr(k); $(id).setAttribute('aria-label', tr(k)); });
+  }
+
+  function renderCard() {
+    // decoration
+    const tpl = $('decor-' + theme);
+    $('decor').replaceChildren(tpl ? tpl.content.cloneNode(true) : '');
+    // logo — shown only when there is one
+    const logo = $('logo');
+    if (D.logo) { logo.src = safeUrl(D.logo, true); logo.alt = pick(D.company) || 'logo'; $('cardTop').hidden = false; }
+    else { logo.removeAttribute('src'); $('cardTop').hidden = true; }
+    // photo or monogram
+    const av = $('avatar'); av.replaceChildren();
+    if (D.photo) av.append(h('img', { src: D.photo, alt: pick(D.name) }));
+    else av.append(h('span', { 'aria-hidden': 'true', text: initials(pick(D.name)) }));
+    $('name').textContent = pick(D.name);
+    $('role').textContent = pick(D.title); $('role').hidden = !pick(D.title);
+    $('company').textContent = pick(D.company); $('company').hidden = !pick(D.company);
+    // contacts
+    const ul = $('contacts'); ul.replaceChildren();
+    const row = (icon, href, text) => ul.append(h('li', {}, h('a', { href, ...(href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }, fa(icon), h('span', { class: 'ltr', text }))));
+    if (D.phone) row('fa-solid fa-phone', 'tel:' + D.phone.replace(/[^\d+]/g, ''), D.phone);
+    if (D.email) row('fa-solid fa-envelope', 'mailto:' + D.email, D.email);
+    if (D.website) row('fa-solid fa-globe', D.website, prettyUrl(D.website));
+    // QR
+    const svg = qrSvg(qrText());
+    $('qrBox').replaceChildren(svg || fa('fa-solid fa-qrcode'));
+    $('qr').hidden = !qrText();
+    $('qrCap').textContent = (D.qr?.mode === 'vcard') ? tr('scanVcard') : tr('scanPage');
+  }
+
+  function renderTabs() {
+    const items = Object.keys(NETS).filter((k) => socialUrl(k, D.social?.[k]));
+    const hasLine = !!(D.line?.id || D.line?.url || D.line?.qr);
+    const projects = (D.projects || []).filter((p) => pick(p.name) || p.url);
+
+    document.querySelectorAll('.tab').forEach((b) => {
+      const id = b.dataset.tab;
+      b.querySelector('span').textContent = tr(id);
+      const open = openTab === id;
+      b.setAttribute('aria-expanded', String(open));
+      $('panel-' + id).hidden = !open;
+    });
+    $('projCount').textContent = String(projects.length);
+
+    const soc = $('social'); soc.replaceChildren();
+    items.forEach((k) => soc.append(h('a', { class: 'soc', 'data-k': k, href: socialUrl(k, D.social[k]), target: '_blank', rel: 'noopener noreferrer', 'aria-label': tr('net')[k] },
+      h('span', { class: 'ico' }, fa('fa-brands ' + NETS[k].icon)), h('span', { text: tr('net')[k] }))));
+    if (hasLine) soc.append(h('button', { type: 'button', class: 'soc', 'data-k': 'line', 'aria-label': tr('net').line, onclick: openLine },
+      h('span', { class: 'ico' }, fa('fa-brands fa-line')), h('span', { text: tr('net').line })));
+    if (!items.length && !hasLine) soc.append(h('p', { class: 'empty', text: tr('noSocial') }));
+
+    const ul = $('projects'); ul.replaceChildren();
+    projects.forEach((p) => {
+      const desc = pick(p.desc);
+      ul.append(h('li', {}, h('a', { class: 'proj', href: p.url || '#', target: '_blank', rel: 'noopener noreferrer' },
+        h('span', { class: 'ptile' }, fa(/github\.com/i.test(p.url || '') ? 'fa-brands fa-github' : 'fa-solid fa-cube')),
+        h('span', { class: 'ptext' }, h('b', { text: pick(p.name) || prettyUrl(p.url) }), desc ? h('small', { text: desc }) : h('small', { class: 'ltr', text: prettyUrl(p.url) })),
+        fa('fa-solid fa-arrow-up-right-from-square go'))));
+    });
+    if (!projects.length) ul.append(h('li', {}, h('p', { class: 'empty', text: tr('noProjects') })));
+
+    // copyright: the card owner, then the developer credit (fixed, not part of the card data)
+    const madeBy = { fa: 'طراحی و توسعه:', en: 'Designed & developed by', ja: '開発：' }[lang] || 'Designed & developed by';
+    $('foot').replaceChildren(
+      h('span', { text: '© ' + new Date().getFullYear() + ' ' + pick(D.name) }), h('span', { class: 'sep', 'aria-hidden': 'true', text: '·' }),
+      h('span', {}, madeBy + ' ', h('b', { class: 'ltr', title: 'Saber Zulqarnain', text: 'zuldev' })));
+  }
+
+  function render() { renderShell(); renderCard(); renderTabs(); renderFx(); }
+
+  /* ── seasonal effect layer ────────────────────────────────────────── */
+  let fxFor = '';
+  function renderFx() {
+    if (fxFor === theme) return; fxFor = theme;
+    const box = $('fx'); box.replaceChildren();
+    if (theme === 'modern') return;
+    const n = theme === 'newyear' ? 18 : 16;
+    for (let i = 0; i < n; i++) {
+      const s = theme === 'newyear' ? 8 + Math.random() * 12 : 8 + Math.random() * 10;
+      const i_ = h('i');
+      i_.style.cssText = `left:${Math.random() * 100}%;--s:${s}px;--dx:${(Math.random() * 30 - 15).toFixed(1)}vw;--y:${(Math.random() * 90).toFixed(1)}vh;animation-duration:${(theme === 'newyear' ? 2.5 + Math.random() * 3 : 9 + Math.random() * 9).toFixed(1)}s;animation-delay:-${(Math.random() * 12).toFixed(1)}s`;
+      box.append(i_);
+    }
+  }
+
+  /* ── actions ──────────────────────────────────────────────────────── */
+  function setLang(l) { lang = l; if (!PREVIEW) store.set('card_lang', l); render(); }
+  function setTheme(t) { theme = t; if (!PREVIEW) store.set('card_theme', t); render(); }
+  function togglePop(open) { const p = $('themePop'); p.hidden = !(open ?? p.hidden); $('themeBtn').setAttribute('aria-expanded', String(!p.hidden)); }
+
+  $('tabs').addEventListener('click', (e) => {
+    const b = e.target.closest('.tab'); if (!b) return;
+    openTab = openTab === b.dataset.tab ? '' : b.dataset.tab;      // click the open tab = close it
+    renderTabs();
+  });
+  $('themeBtn').addEventListener('click', (e) => { e.stopPropagation(); togglePop(); });
+  document.addEventListener('click', (e) => { if (!e.target.closest('#themeBox')) togglePop(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') togglePop(false); });
+  $('printBtn').addEventListener('click', () => window.print());
+  $('vcfBtn').addEventListener('click', () => {
+    const a = h('a', {}); a.href = URL.createObjectURL(new Blob([vcard()], { type: 'text/vcard;charset=utf-8' }));
+    a.download = (pick(D.name) || 'contact').replace(/[\\/:*?"<>|]+/g, '') + '.vcf';
+    document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  });
+  $('shareBtn').addEventListener('click', async () => {
+    const url = pageUrl() || location.href;
+    if (navigator.share) { try { await navigator.share({ title: document.title, url }); return; } catch (e) { if (e.name === 'AbortError') return; } }
+    copy(url).then(() => toast(tr('linkCopied')));
+  });
+
+  function openLine() {
+    const sheet = $('lineSheet');
+    const url = lineUrl();
+    const box = $('lineQr');
+    if (D.line?.qr) box.replaceChildren(h('img', { src: D.line.qr, alt: 'LINE QR' }));
+    else box.replaceChildren(qrSvg(url) || fa('fa-brands fa-line'));
+    box.hidden = !(D.line?.qr || url);
+    $('lineIdRow').hidden = !D.line?.id;
+    $('lineId').textContent = D.line?.id || '';
+    $('lineCopy').querySelector('span').textContent = tr('copy');
+    $('lineOpen').hidden = !url;
+    if (url) $('lineOpen').href = safeUrl(url);
+    $('lineOpen').querySelector('span').textContent = tr('openLine');
+    $('lineClose').setAttribute('aria-label', tr('close'));
+    sheet.showModal();
+  }
+  $('lineCopy').addEventListener('click', () => copy(D.line?.id || ''));
+  $('lineClose').addEventListener('click', () => $('lineSheet').close());
+  $('lineSheet').addEventListener('click', (e) => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
+  /* ── live preview from admin.html (same origin only) ──────────────── */
+  if (PREVIEW) {
+    let previewSeen = false;
+    window.addEventListener('message', (e) => {
+      if (e.source !== window.parent || e.origin !== location.origin) return;
+      if (e.data?.type !== 'card:data' || typeof e.data.data !== 'object') return;
+      const firstOrNewDefault = !previewSeen || D.defaultLang !== e.data.data.defaultLang;
+      previewSeen = true;
+      D = e.data.data;
+      // show the card's default language (what visitors see); keep a language picked inside the preview until the default changes
+      if (firstOrNewDefault || !langs().includes(lang)) lang = langs().includes(D.defaultLang) ? D.defaultLang : langs()[0];
+      theme = THEMES.includes(D.theme) ? D.theme : theme;
+      render();
+    });
+    window.parent.postMessage({ type: 'card:ready' }, location.origin === 'null' ? '*' : location.origin);
+  }
+
+  /* ── glass scroll indicator (native scrollbar is hidden) ──────────── */
+  (() => {
+    const bar = h('div', { class: 'glass-scroll', 'aria-hidden': 'true' });
+    document.body.append(bar);
+    let hide;
+    const update = (show) => {
+      const vh = window.innerHeight, sh = document.documentElement.scrollHeight;
+      if (sh <= vh + 1) { bar.classList.remove('on'); return; }
+      const th = Math.max(36, (vh * vh) / sh);
+      const top = (window.scrollY / (sh - vh)) * (vh - th - 6) + 3;
+      bar.style.height = th + 'px';
+      bar.style.transform = `translateY(${top}px)`;
+      if (!show) return;
+      bar.classList.add('on');
+      clearTimeout(hide); hide = setTimeout(() => bar.classList.remove('on'), 900);
     };
-    document.getElementById('lang-fa').onclick = () => setLang('fa');
-    document.getElementById('lang-en').onclick = () => setLang('en');
-    // default language: فارسی
-    setLang('fa');
-  </script>
+    window.addEventListener('scroll', () => update(true), { passive: true });
+    window.addEventListener('resize', () => update(false));
+  })();
+
+  /* ── start ────────────────────────────────────────────────────────── */
+  lang = pickLang(); theme = pickTheme();
+  render();
+  // the QR library loads deferred; draw the QR as soon as it is there
+  if (typeof window.qrcode !== 'function') window.addEventListener('load', () => renderCard(), { once: true });
+})();
+</script>
 </body>
 </html>
