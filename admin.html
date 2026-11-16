@@ -1,0 +1,1636 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<meta name="author" content="Saber Zulqarnain (zuldev)">
+<title>Card Studio</title>
+<!-- Owner login. Only a salted PBKDF2-SHA256 hash is stored here, never the e-mail or password itself.
+     Change it from inside the studio (⋮ → change e-mail & password), which downloads a new admin.html. -->
+<script type="application/json" id="studio-auth">{"v":1,"alg":"PBKDF2-SHA256","iter":310000,"salt":"Al1Gz0580DpHn2YpAfQwxw==","hash":"K/+sVDSBeV1UTXbO2CKKyTJdvy8VpjoUHfgifuCBtAU="}</script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+/* Qarn Style kit (qarn.css v1.0), inlined */
+/* ============================================================================
+ * Qarn Style — qarn.css  (v1.0)
+ * One stylesheet for the whole look of the SakuraOS / Qarn platform: landing,
+ * dashboard, portal, site panel. Distilled from the platform's own CSS and
+ * de-duplicated: every component below replaces several look-alike ones.
+ *
+ *   Dark first (gold on near-black), light theme by [data-theme="light"].
+ *   RTL first (Persian), LTR works: logical properties everywhere.
+ *   No framework. Pair with qarn.js for the behaviour (tabs, folds, sidebar,
+ *   menus, toasts, dialogs) and Font Awesome 6 Free (solid) for icons.
+ *
+ *   Sections
+ *     1 tokens        colours, type, space, radius, shadow, z, motion
+ *     2 base          reset, body, focus, selection, scrollbars, numbers
+ *     3 layout        app shell, container, stack / cluster / grid
+ *     4 icon tile     .q-ico
+ *     5 buttons       .q-btn
+ *     6 chips/badges  .q-chip  .q-badge
+ *     7 forms         .q-field .q-input .q-select .q-textarea .q-search
+ *                     .q-switch .q-check .q-radio-card .q-seg .q-trio
+ *     8 cards         .q-card (+ fold) .q-hero .q-stat .q-tile .q-row
+ *     9 navigation    .q-tabs .q-sidebar .q-topbar .q-bottomnav .q-menu .q-crumb
+ *    10 feedback      .q-alert .q-toast .q-dialog .q-empty .q-skel .q-ring .q-progress
+ *    11 motion        keyframes + .q-fade-up .q-lift; reduced-motion
+ *    12 utilities     text tones, spacing, visibility
+ * ========================================================================== */
+
+/* ── 1 tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  /* brand */
+  --q-gold: #c9a84c;
+  --q-gold-dim: #8a6f30;
+  --q-gold-soft: rgba(201, 168, 76, .12);
+  --q-gold-glow: rgba(201, 168, 76, .15);
+  --q-gold-line: rgba(201, 168, 76, .25);
+  --q-accent: var(--q-gold);            /* override per page / per brand */
+  --q-on-accent: #1a1209;               /* text on the accent */
+
+  /* surfaces (dark) */
+  --q-bg: #070709;
+  --q-surface: #111116;
+  --q-card: #16161d;
+  --q-card-alt: #1c1c25;
+  --q-input: #0e0e14;
+  --q-hover: rgba(255, 255, 255, .04);
+  --q-glass: rgba(22, 22, 29, .85);
+
+  /* text */
+  --q-text: #f2ede4;
+  --q-text-2: #c8c2ba;
+  --q-muted: #8a8590;
+  --q-disabled: #4a4855;
+
+  /* lines */
+  --q-line: rgba(255, 255, 255, .05);
+  --q-line-2: rgba(255, 255, 255, .1);
+  --q-line-3: rgba(255, 255, 255, .18);
+
+  /* status */
+  --q-success: #2ecc71;  --q-success-bg: rgba(46, 204, 113, .12);
+  --q-danger: #e74c3c;   --q-danger-bg: rgba(231, 76, 60, .12);
+  --q-warning: #f39c12;  --q-warning-bg: rgba(243, 156, 18, .12);
+  --q-info: #5b8cff;     --q-info-bg: rgba(91, 140, 255, .14);
+
+  /* type — Vazirmatn reads Persian, Latin and digits well; sizes scale with the screen */
+  --q-font: "Vazirmatn", "Vazirmatn Fallback", Tahoma, system-ui, sans-serif;
+  --q-font-mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  --q-fs-xs: clamp(.65rem, 1.5vw, .75rem);
+  --q-fs-sm: clamp(.75rem, 1.8vw, .875rem);
+  --q-fs-md: clamp(.875rem, 2vw, 1rem);
+  --q-fs-lg: clamp(1rem, 2.2vw, 1.125rem);
+  --q-fs-xl: clamp(1.125rem, 2.5vw, 1.25rem);
+  --q-fs-2xl: clamp(1.25rem, 3vw, 1.5rem);
+  --q-fs-3xl: clamp(1.5rem, 4vw, 1.875rem);
+  --q-fs-4xl: clamp(1.875rem, 5vw, 2.5rem);
+  --q-lh: 1.6;
+
+  /* space */
+  --q-s1: 4px; --q-s2: 8px; --q-s3: 12px; --q-s4: 16px; --q-s5: 20px; --q-s6: 24px; --q-s8: 32px; --q-s10: 40px; --q-s12: 48px;
+  --q-pad: clamp(12px, 3vw, 24px);       /* page padding */
+
+  /* radius — pills for controls, soft corners for cards */
+  --q-r-xs: 4px; --q-r-sm: 8px; --q-r-md: 12px; --q-r-lg: 16px; --q-r-xl: 20px; --q-r-2xl: 24px; --q-r-3xl: 28px; --q-r-pill: 999px;
+
+  /* shadow */
+  --q-sh-sm: 0 1px 3px rgba(0, 0, 0, .3);
+  --q-sh-md: 0 4px 12px rgba(0, 0, 0, .4);
+  --q-sh-lg: 0 8px 24px rgba(0, 0, 0, .5);
+  --q-sh-xl: 0 16px 48px rgba(0, 0, 0, .6);
+  --q-sh-gold: 0 4px 16px rgba(201, 168, 76, .35);
+
+  /* size */
+  --q-touch: 44px;                        /* every tap target is at least this */
+  --q-ctl: 42px;                          /* input / button height */
+  --q-ctl-sm: 36px;
+  --q-sidebar: 280px;
+  --q-sidebar-mini: 72px;
+  --q-topbar: 64px;
+  --q-bottomnav: 64px;
+  --q-blur: 16px;
+
+  /* layers */
+  --q-z-raised: 10; --q-z-menu: 100; --q-z-sticky: 200; --q-z-sidebar: 1000; --q-z-bottomnav: 1100;
+  --q-z-topbar: 1600; --q-z-overlay: 1700; --q-z-drawer: 1750; --q-z-dialog: 3000; --q-z-toast: 3100;
+
+  /* motion */
+  --q-ease: cubic-bezier(.4, 0, .2, 1);
+  --q-ease-bounce: cubic-bezier(.34, 1.56, .64, 1);
+  --q-t-fast: .2s var(--q-ease);
+  --q-t: .3s var(--q-ease);
+  --q-t-slow: .5s var(--q-ease);
+
+  color-scheme: dark;
+}
+
+/* light theme: the same roles, paper colours (sites and print use it) */
+[data-theme="light"] {
+  --q-bg: #f6f5f2; --q-surface: #ffffff; --q-card: #ffffff; --q-card-alt: #f3f1ec; --q-input: #ffffff;
+  --q-hover: rgba(0, 0, 0, .04); --q-glass: rgba(255, 255, 255, .86);
+  --q-text: #1d1b18; --q-text-2: #47433d; --q-muted: #7b766e; --q-disabled: #b9b4ab;
+  --q-line: rgba(0, 0, 0, .06); --q-line-2: rgba(0, 0, 0, .1); --q-line-3: rgba(0, 0, 0, .18);
+  --q-gold: #a8862e; --q-on-accent: #fff;
+  --q-sh-sm: 0 1px 3px rgba(20, 20, 30, .08); --q-sh-md: 0 4px 12px rgba(20, 20, 30, .1);
+  --q-sh-lg: 0 8px 24px rgba(20, 20, 30, .12); --q-sh-xl: 0 16px 48px rgba(20, 20, 30, .16);
+  color-scheme: light;
+}
+
+/* ── 2 base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body.q, .q-root {
+  margin: 0; font-family: var(--q-font); font-size: var(--q-fs-md); line-height: var(--q-lh);
+  color: var(--q-text); background: var(--q-bg); -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+.q-root a, body.q a { color: inherit; text-decoration: none; }
+.q-root img, body.q img { max-width: 100%; display: block; }
+.q-root button, body.q button { font: inherit; }
+:where(.q-root, body.q) :focus-visible { outline: 2px solid var(--q-accent); outline-offset: 2px; }
+:where(.q-root, body.q) ::selection { background: var(--q-gold-line); }
+:where(.q-root, body.q) * { -webkit-tap-highlight-color: rgba(201, 168, 76, .1); }
+/* thin, quiet scrollbars that show on hover */
+.q-scroll { overflow: auto; scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.q-scroll:hover { scrollbar-color: var(--q-line-3) transparent; }
+/* numbers, amounts, codes: always left-to-right inside Persian text ("150 AF", "1,000 ¥") */
+.q-num { direction: ltr; unicode-bidi: isolate; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.q-mono { font-family: var(--q-font-mono); }
+.q-sr { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── 3 layout ─────────────────────────────────────────────────────────────── */
+/* app shell: sidebar (inline-start) + main (topbar + content). Under 992px the sidebar is a drawer. */
+.q-app { display: flex; min-height: 100vh; }
+.q-app-main { flex: 1; min-width: 0; display: flex; flex-direction: column; padding-inline-start: var(--q-sidebar); transition: padding var(--q-t); }
+.q-app.is-mini .q-app-main { padding-inline-start: var(--q-sidebar-mini); }
+.q-content { flex: 1; padding: var(--q-pad); display: flex; flex-direction: column; gap: var(--q-s4); }
+@media (max-width: 991px) {
+  .q-app-main, .q-app.is-mini .q-app-main { padding-inline-start: 0; }
+  .q-content { padding-bottom: calc(var(--q-bottomnav) + env(safe-area-inset-bottom, 0px) + var(--q-s6)); }
+}
+.q-container { width: min(1200px, 100% - 2 * var(--q-pad)); margin-inline: auto; }
+.q-stack { display: flex; flex-direction: column; gap: var(--q-gap, var(--q-s3)); }
+.q-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--q-gap, var(--q-s2)); }
+.q-spread { display: flex; align-items: center; justify-content: space-between; gap: var(--q-s3); flex-wrap: wrap; }
+/* auto grid: as many columns as fit (min column via --q-min) */
+.q-grid { display: grid; gap: var(--q-gap, var(--q-s3)); grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--q-min, 260px)), 1fr)); }
+.q-grid-2 { display: grid; gap: var(--q-gap, var(--q-s3)); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.q-grid-4 { display: grid; gap: var(--q-gap, var(--q-s3)); grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 860px) { .q-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .q-grid-2 { grid-template-columns: minmax(0, 1fr); } }
+
+/* ── 4 icon tile — the square behind every icon (sidebar, cards, stats, sections) ── */
+.q-ico {
+  --ic: var(--q-accent);
+  width: var(--q-ico-size, 38px); height: var(--q-ico-size, 38px); flex: none; display: grid; place-items: center;
+  border-radius: var(--q-ico-radius, 10px); font-size: calc(var(--q-ico-size, 38px) * .42);
+  color: var(--ic); background: color-mix(in srgb, var(--ic) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ic) 22%, transparent);
+}
+.q-ico.is-plain { color: var(--q-muted); background: rgba(255, 255, 255, .03); border-color: var(--q-line); }
+.q-ico.is-round { border-radius: 50%; }
+.q-ico.sm { --q-ico-size: 28px; --q-ico-radius: 8px; }
+.q-ico.lg { --q-ico-size: 48px; --q-ico-radius: 14px; }
+.q-ico.xl { --q-ico-size: 56px; --q-ico-radius: 16px; }
+.is-success > .q-ico, .q-ico.is-success { --ic: var(--q-success); }
+.is-danger > .q-ico, .q-ico.is-danger { --ic: var(--q-danger); }
+.is-warning > .q-ico, .q-ico.is-warning { --ic: var(--q-warning); }
+.is-info > .q-ico, .q-ico.is-info { --ic: var(--q-info); }
+
+/* ── 5 buttons — one button, four looks, three sizes ─────────────────────── */
+.q-btn {
+  --b-bg: var(--q-card-alt); --b-fg: var(--q-text); --b-line: var(--q-line-2);
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--q-ctl); padding: 0 18px; border-radius: var(--q-r-pill);
+  border: 1px solid var(--b-line); background: var(--b-bg); color: var(--b-fg);
+  font: inherit; font-weight: 700; font-size: var(--q-fs-sm); line-height: 1; white-space: nowrap;
+  cursor: pointer; text-decoration: none; user-select: none;
+  transition: transform var(--q-t-fast), box-shadow var(--q-t-fast), background var(--q-t-fast), border-color var(--q-t-fast), color var(--q-t-fast);
+}
+.q-btn:hover:not([disabled]):not(.is-loading) { transform: translateY(-1px); border-color: var(--q-line-3); }
+.q-btn:active:not([disabled]) { transform: translateY(0); }
+.q-btn i { flex: none; }
+/* looks */
+.q-btn.is-primary { --b-bg: linear-gradient(135deg, var(--q-accent), color-mix(in srgb, var(--q-accent) 62%, #000)); --b-fg: var(--q-on-accent); --b-line: transparent; box-shadow: var(--q-sh-gold); }
+.q-btn.is-primary:hover:not([disabled]) { box-shadow: 0 8px 24px color-mix(in srgb, var(--q-accent) 45%, transparent); border-color: transparent; }
+.q-btn.is-ghost { --b-bg: transparent; --b-fg: var(--q-text-2); }
+.q-btn.is-soft { --b-bg: var(--q-gold-soft); --b-fg: var(--q-accent); --b-line: var(--q-gold-line); }
+.q-btn.is-danger { --b-bg: var(--q-danger-bg); --b-fg: var(--q-danger); --b-line: color-mix(in srgb, var(--q-danger) 40%, transparent); }
+.q-btn.is-danger.is-solid { --b-bg: var(--q-danger); --b-fg: #fff; --b-line: transparent; }
+.q-btn.is-success { --b-bg: var(--q-success-bg); --b-fg: var(--q-success); --b-line: color-mix(in srgb, var(--q-success) 40%, transparent); }
+/* sizes and shapes */
+.q-btn.sm { min-height: var(--q-ctl-sm); padding: 0 14px; font-size: var(--q-fs-xs); }
+.q-btn.lg { min-height: 48px; padding: 0 28px; font-size: var(--q-fs-md); font-weight: 800; }
+.q-btn.is-block { display: flex; width: 100%; }
+.q-btn.is-icon { width: var(--q-ctl); padding: 0; }
+.q-btn.is-icon.sm { width: var(--q-ctl-sm); }
+.q-btn.is-square { border-radius: var(--q-r-md); }
+/* states */
+.q-btn[disabled], .q-btn.is-disabled { opacity: .5; cursor: not-allowed; }
+.q-btn.is-loading { color: transparent !important; pointer-events: none; position: relative; }
+.q-btn.is-loading::after { content: ""; position: absolute; width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--b-fg); border-inline-end-color: transparent; animation: q-spin .7s linear infinite; }
+.q-btn.is-on { --b-bg: var(--q-gold-soft); --b-fg: var(--q-accent); --b-line: var(--q-gold-line); }
+/* a row of actions: wraps, and the primary action comes first in reading order */
+.q-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.q-actions.is-end { justify-content: flex-end; }
+
+/* ── 6 chips and badges ─────────────────────────────────────────────────── */
+.q-chip {
+  --c: var(--q-muted);
+  display: inline-flex; align-items: center; gap: 6px; min-height: 26px; padding: 0 10px; border-radius: var(--q-r-pill);
+  font-size: var(--q-fs-xs); font-weight: 700; white-space: nowrap; color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, transparent);
+}
+.q-chip.is-gold { --c: var(--q-accent); }
+.q-chip.is-success { --c: var(--q-success); }
+.q-chip.is-danger { --c: var(--q-danger); }
+.q-chip.is-warning { --c: var(--q-warning); }
+.q-chip.is-info { --c: var(--q-info); }
+.q-chip.is-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+button.q-chip, a.q-chip { border: 1px solid var(--q-line-2); cursor: pointer; background: var(--q-card-alt); color: var(--q-text); min-height: 32px; padding: 0 12px; }
+button.q-chip.is-on, a.q-chip.is-on { background: var(--q-gold-soft); color: var(--q-accent); border-color: var(--q-gold-line); }
+/* a count on an icon or a menu row */
+.q-badge {
+  display: inline-grid; place-items: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: var(--q-r-pill);
+  font-size: .62rem; font-weight: 800; line-height: 1; color: #111; background: var(--q-accent);
+}
+.q-badge.is-danger { background: var(--q-danger); color: #fff; }
+
+/* ── 7 forms ─────────────────────────────────────────────────────────────── */
+.q-field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.q-label { font-size: var(--q-fs-xs); font-weight: 700; color: var(--q-text-2); }
+.q-hint { font-size: var(--q-fs-xs); color: var(--q-muted); line-height: 1.7; }
+.q-error { font-size: var(--q-fs-xs); color: var(--q-danger); }
+.q-input, .q-select, .q-textarea {
+  width: 100%; min-height: var(--q-ctl); padding: 0 14px; border-radius: 14px;
+  border: 1px solid var(--q-line-2); background: var(--q-input); color: var(--q-text);
+  font: inherit; font-size: var(--q-fs-sm); transition: border-color var(--q-t-fast), box-shadow var(--q-t-fast);
+}
+.q-textarea { padding: 10px 14px; line-height: 1.8; resize: vertical; min-height: 96px; }
+.q-input::placeholder, .q-textarea::placeholder { color: var(--q-disabled); }
+.q-input:focus, .q-select:focus, .q-textarea:focus { outline: none; border-color: var(--q-accent); box-shadow: 0 0 0 3px var(--q-gold-glow); }
+.q-input.sm, .q-select.sm { min-height: var(--q-ctl-sm); border-radius: 12px; font-size: var(--q-fs-xs); }
+.q-field.is-invalid .q-input, .q-input[aria-invalid="true"] { border-color: var(--q-danger); }
+.q-input[readonly] { color: var(--q-muted); }
+.q-select { appearance: none; padding-inline-end: 34px; background-image: linear-gradient(45deg, transparent 50%, var(--q-muted) 50%), linear-gradient(135deg, var(--q-muted) 50%, transparent 50%); background-position: calc(100% - 18px) 55%, calc(100% - 13px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+[dir="rtl"] .q-select { background-position: 18px 55%, 13px 55%; }
+/* an input with an icon and an optional suffix (".sakura.test", "AF") */
+.q-input-group { position: relative; display: flex; align-items: center; }
+.q-input-group > i { position: absolute; inset-inline-start: 14px; color: var(--q-muted); pointer-events: none; }
+.q-input-group > i ~ .q-input { padding-inline-start: 40px; }
+.q-input-group > .q-suffix { position: absolute; inset-inline-end: 12px; color: var(--q-muted); font-size: var(--q-fs-xs); font-weight: 700; }
+/* the search box: a pill with a magnifier */
+.q-search { position: relative; display: flex; align-items: center; }
+.q-search i { position: absolute; inset-inline-start: 16px; color: var(--q-muted); }
+.q-search .q-input { border-radius: var(--q-r-pill); padding-inline-start: 42px; }
+/* on/off switch */
+.q-switch { position: relative; display: inline-flex; align-items: center; gap: 10px; cursor: pointer; user-select: none; }
+.q-switch input { position: absolute; opacity: 0; pointer-events: none; }
+.q-switch .q-switch-track { width: 44px; height: 24px; flex: none; border-radius: var(--q-r-pill); background: var(--q-line-3); position: relative; transition: background var(--q-t-fast); }
+.q-switch .q-switch-track::after { content: ""; position: absolute; top: 3px; inset-inline-start: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: var(--q-sh-sm); transition: inset-inline-start var(--q-t-fast); }
+.q-switch input:checked + .q-switch-track { background: var(--q-success); }
+.q-switch input:checked + .q-switch-track::after { inset-inline-start: 23px; }
+.q-switch input:focus-visible + .q-switch-track { outline: 2px solid var(--q-accent); outline-offset: 2px; }
+.q-switch input:disabled + .q-switch-track { opacity: .5; }
+/* checkbox / radio with the accent colour */
+.q-check { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--q-r-md); border: 1px solid var(--q-line); cursor: pointer; }
+.q-check input { width: 18px; height: 18px; flex: none; accent-color: var(--q-accent); }
+.q-check:hover { border-color: var(--q-line-2); }
+/* a choice as a card (radio): title + hint, the chosen one glows */
+.q-radio-card { display: flex; align-items: flex-start; gap: 10px; padding: 12px 14px; border-radius: var(--q-r-lg); border: 1px solid var(--q-line-2); background: var(--q-card-alt); cursor: pointer; transition: border-color var(--q-t-fast), background var(--q-t-fast); }
+.q-radio-card input { margin-top: 4px; accent-color: var(--q-accent); }
+.q-radio-card b { display: block; font-size: var(--q-fs-sm); }
+.q-radio-card small { color: var(--q-muted); font-size: var(--q-fs-xs); }
+.q-radio-card:has(input:checked) { border-color: var(--q-gold-line); background: var(--q-gold-soft); }
+/* segmented control (device, period, view) */
+.q-seg { display: inline-flex; padding: 4px; gap: 4px; border-radius: var(--q-r-pill); background: var(--q-card); border: 1px solid var(--q-line); }
+.q-seg > button { min-height: 34px; padding: 0 14px; border: 0; border-radius: var(--q-r-pill); background: transparent; color: var(--q-muted); font: inherit; font-size: var(--q-fs-xs); font-weight: 700; cursor: pointer; }
+.q-seg > button.is-on, .q-seg > button[aria-pressed="true"] { background: var(--q-accent); color: var(--q-on-accent); }
+/* the same text in three languages, stacked */
+.q-trio { display: flex; flex-direction: column; gap: 6px; }
+.q-trio > label { display: grid; grid-template-columns: 64px 1fr; align-items: center; gap: 8px; }
+.q-trio > label small { color: var(--q-muted); font-size: var(--q-fs-xs); }
+/* a form laid out in columns that wrap */
+.q-form { display: grid; gap: var(--q-s3); grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+.q-form > .is-wide { grid-column: 1 / -1; }
+
+/* ── 8 cards ────────────────────────────────────────────────────────────── */
+/* The card. Every card opens and shuts (the fold rule): a head button, a body. */
+.q-card { background: var(--q-card); border: 1px solid var(--q-line); border-radius: var(--q-r-xl); overflow: hidden; transition: border-color var(--q-t-fast), border-radius var(--q-t-fast); }
+.q-card.is-open { border-color: var(--q-line-2); }
+.q-card-head { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 16px; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.q-card-title { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.q-card-title b { font-size: var(--q-fs-md); }
+.q-card-title small { color: var(--q-muted); font-size: var(--q-fs-xs); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-card-chev { color: var(--q-muted); font-size: .8rem; transition: transform var(--q-t); }
+.q-card.is-open > .q-card-head .q-card-chev { transform: rotate(180deg); }
+.q-card-body { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.q-card:not(.is-open) > .q-card-body { display: none; }
+.q-card.is-static > .q-card-body { display: flex; padding-top: 16px; }
+.q-card.is-open > .q-card-body { animation: q-fade-down .2s var(--q-ease); }
+/* the page head: icon, title, words, actions — a soft gradient of the accent */
+.q-hero {
+  display: flex; align-items: center; gap: var(--q-s4); flex-wrap: wrap; padding: clamp(14px, 3.5vw, 24px); border-radius: var(--q-r-3xl);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--q-accent) 14%, var(--q-card)), var(--q-card) 60%);
+  border: 1px solid var(--q-line-2);
+}
+.q-hero .q-ico { --q-ico-size: 52px; --q-ico-radius: 16px; }
+.q-hero-text { flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+.q-hero-text h1, .q-hero-text h2 { margin: 0; font-size: var(--q-fs-2xl); }
+.q-hero-text p { margin: 0; color: var(--q-muted); font-size: var(--q-fs-sm); line-height: 1.8; }
+/* a number card */
+.q-stat { --ic: var(--q-accent); display: flex; align-items: center; gap: 12px; min-height: 72px; padding: 12px 14px; border-radius: var(--q-r-2xl); background: var(--q-card); border: 1px solid var(--q-line); color: inherit; text-align: start; transition: transform var(--q-t-fast), border-color var(--q-t-fast); }
+.q-stat .q-ico { --ic: inherit; border-radius: 50%; }
+.q-stat > .q-ico { color: var(--ic); background: color-mix(in srgb, var(--ic) 16%, transparent); border: 0; }
+.q-stat-body { display: flex; flex-direction: column; min-width: 0; }
+.q-stat-body b { font-size: clamp(.95rem, 2.6vw, 1.15rem); line-height: 1.3; direction: ltr; unicode-bidi: isolate; text-align: start; white-space: nowrap; }
+.q-stat-body small { font-size: var(--q-fs-xs); color: var(--q-muted); }
+.q-stat .q-delta { margin-inline-start: auto; font-size: var(--q-fs-xs); font-weight: 800; direction: ltr; }
+.q-delta.is-up { color: var(--q-success); } .q-delta.is-down { color: var(--q-danger); }
+a.q-stat:hover, button.q-stat:hover { transform: translateY(-1px); border-color: var(--q-line-3); cursor: pointer; }
+.q-stat.is-success { --ic: var(--q-success); } .q-stat.is-info { --ic: var(--q-info); } .q-stat.is-warning { --ic: var(--q-warning); } .q-stat.is-danger { --ic: var(--q-danger); }
+/* a tile that leads somewhere (a section, a module): icon, name, one quiet line */
+.q-tile { display: flex; align-items: center; gap: 12px; min-width: 0; padding: 14px; border-radius: var(--q-r-lg); border: 1px solid var(--q-line); background: var(--q-card); color: var(--q-text-2); text-align: start; font: inherit; cursor: pointer; transition: border-color var(--q-t-fast), background var(--q-t-fast), transform var(--q-t-fast); }
+.q-tile:hover { border-color: var(--q-gold-line); background: color-mix(in srgb, var(--q-accent) 6%, var(--q-card)); transform: translateY(-1px); }
+.q-tile-text { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.q-tile-text b { color: var(--q-text); font-size: var(--q-fs-sm); overflow-wrap: anywhere; }
+.q-tile-text small { color: var(--q-muted); font-size: var(--q-fs-xs); line-height: 1.6; }
+.q-tile.is-on { border-color: var(--q-gold-line); background: var(--q-gold-soft); color: var(--q-accent); }
+.q-tile.is-on .q-ico { background: linear-gradient(135deg, rgba(201, 168, 76, .22), rgba(201, 168, 76, .05)); box-shadow: 0 4px 12px rgba(201, 168, 76, .18); }
+.q-tile .q-go { color: var(--q-muted); font-size: .75rem; flex: none; }
+[dir="rtl"] .q-tile .q-go { transform: scaleX(-1); }
+/* a list row that unfolds (a record: head with name + chips + chevron, body below) */
+.q-row { border-radius: var(--q-r-xl); background: var(--q-card); border: 1px solid var(--q-line); overflow: hidden; }
+.q-row.is-open { border-radius: var(--q-r-lg); border-color: var(--q-line-2); }
+.q-row-head { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 16px; border: 0; background: transparent; color: inherit; font: inherit; text-align: start; cursor: pointer; }
+.q-row-body { padding: 0 16px 16px; display: none; flex-direction: column; gap: 10px; }
+.q-row.is-open > .q-row-body { display: flex; }
+.q-row.is-open > .q-row-head .q-card-chev { transform: rotate(180deg); }
+.q-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-divider { height: 1px; background: var(--q-line); border: 0; margin: 4px 0; }
+
+/* ── 9 navigation ───────────────────────────────────────────────────────── */
+/* TAB BAR — floating pills in one row (scrolls sideways, no scrollbar). NOTHING is open at
+   first; a click opens a tab's panel below, a click on the open tab closes it. qarn.js wires it. */
+.q-tabs { display: flex; flex-wrap: nowrap; align-items: center; gap: 5px; padding: 5px; border-radius: 40px; overflow-x: auto; scrollbar-width: none; background: var(--q-glass); backdrop-filter: blur(var(--q-blur)); -webkit-backdrop-filter: blur(var(--q-blur)); border: 1px solid rgba(255, 255, 255, .08); box-shadow: var(--q-sh-md); }
+.q-tabs::-webkit-scrollbar { display: none; }
+.q-tab { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 10px 16px; border: 0; border-radius: 40px; background: transparent; color: var(--q-muted); font: inherit; font-size: var(--q-fs-sm); font-weight: 700; white-space: nowrap; cursor: pointer; transition: background var(--q-t-fast), color var(--q-t-fast), transform var(--q-t-fast); }
+.q-tab:hover { background: rgba(255, 255, 255, .06); color: var(--q-text); }
+.q-tab.is-on, .q-tab[aria-selected="true"] { background: var(--q-accent); color: #111; box-shadow: var(--q-sh-gold); transform: translateY(-1px); }
+.q-tabpanel { display: flex; flex-direction: column; gap: 14px; padding: clamp(14px, 3vw, 20px); background: var(--q-card); border: 1px solid var(--q-line); border-radius: var(--q-r-lg); }
+.q-tabpanel[hidden] { display: none; }
+.q-tabpick { margin: 0; padding: 18px 12px; text-align: center; color: var(--q-muted); font-size: var(--q-fs-sm); }
+.q-tabpick[hidden] { display: none; }
+
+/* SIDEBAR — 280px, folds to a 72px icon rail (remembered); under 992px a drawer with an overlay.
+   Items: icon tile + label (+ badge); groups open / shut with +/− and show children as a dotted tree. */
+.q-sidebar { position: fixed; top: 0; bottom: 0; inset-inline-start: 0; z-index: var(--q-z-sidebar); width: var(--q-sidebar); display: flex; flex-direction: column; background: rgba(17, 17, 22, .97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-inline-end: 1px solid rgba(255, 255, 255, .07); transition: width var(--q-t), transform var(--q-t); overflow: hidden; }
+[data-theme="light"] .q-sidebar { background: rgba(255, 255, 255, .97); }
+.q-sidebar.is-static { position: relative; height: 100%; }
+.q-side-head { display: flex; align-items: center; gap: 12px; height: 72px; min-height: 72px; padding: 0 16px; border-bottom: 1px solid rgba(255, 255, 255, .07); }
+.q-side-logo { width: 40px; height: 40px; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 12px; color: var(--q-gold); background: linear-gradient(135deg, rgba(201, 168, 76, .25), rgba(201, 168, 76, .06)); border: 1px solid rgba(201, 168, 76, .3); font-size: 1.2rem; }
+.q-side-logo img { width: 100%; height: 100%; object-fit: cover; }
+.q-side-brand { display: flex; flex-direction: column; min-width: 0; }
+.q-side-brand b { color: var(--q-gold); font-size: 1rem; font-weight: 800; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 12px rgba(201, 168, 76, .2); }
+.q-side-brand small { color: var(--q-muted); font-size: .68rem; font-weight: 700; }
+.q-side-nav { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 12px 10px; scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.q-side-nav:hover { scrollbar-color: rgba(255, 255, 255, .1) transparent; }
+.q-side-menu { list-style: none; margin: 0; padding: 0; }
+.q-side-item { margin: 3px 0; }
+.q-side-link { position: relative; display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 10px 12px; border-radius: 12px; border: 1px solid transparent; color: var(--q-muted); text-decoration: none; white-space: nowrap; overflow: hidden; cursor: pointer; transition: color var(--q-t-fast), background var(--q-t-fast), border-color var(--q-t-fast), transform var(--q-t-fast); }
+.q-side-link .q-ico { --ic: currentColor; --q-ico-size: 36px; background: rgba(255, 255, 255, .03); border-color: rgba(255, 255, 255, .05); color: inherit; }
+.q-side-text { flex: 1; overflow: hidden; text-overflow: ellipsis; font-size: .875rem; font-weight: 600; }
+.q-side-link:hover { color: var(--q-text); background: rgba(255, 255, 255, .04); transform: translateX(-3px); }
+[dir="ltr"] .q-side-link:hover { transform: translateX(3px); }
+.q-side-link:hover .q-ico { color: var(--q-gold); border-color: rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .08); }
+.q-side-link.is-on { color: var(--q-gold); background: rgba(201, 168, 76, .12); border-color: rgba(201, 168, 76, .22); }
+.q-side-link.is-on::after { content: ""; position: absolute; inset-inline-end: 0; top: 20%; bottom: 20%; width: 3px; border-radius: 4px; background: var(--q-gold); }
+.q-side-link.is-on .q-ico { color: var(--q-gold); border-color: rgba(201, 168, 76, .25); background: linear-gradient(135deg, rgba(201, 168, 76, .22), rgba(201, 168, 76, .05)); box-shadow: 0 4px 12px rgba(201, 168, 76, .18); }
+.q-side-row { position: relative; }
+.q-side-group > .q-side-row > .q-side-link { padding-inline-end: 50px; }
+.q-side-toggle { position: absolute; inset-inline-end: 10px; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; display: grid; place-items: center; padding: 0; border-radius: 8px; border: 1px solid var(--q-line-2); background: transparent; color: var(--q-muted); font-size: .65rem; cursor: pointer; }
+.q-side-toggle:hover, .q-side-group.is-open > .q-side-row > .q-side-toggle { color: var(--q-gold); border-color: var(--q-gold-line); background: var(--q-gold-glow); }
+.q-side-sub { --dot: color-mix(in srgb, var(--q-gold) 82%, transparent); list-style: none; margin: 0 0 4px; padding: 2px 0 0; margin-inline-start: 30px; }
+.q-side-group:not(.is-open) > .q-side-sub { display: none; }
+.q-side-group.is-open > .q-side-sub { animation: q-fade-down .2s var(--q-ease); }
+.q-side-sub > li { position: relative; padding-inline-start: 16px; margin: 2px 0; }
+.q-side-sub > li::before { content: ""; position: absolute; inset-inline-start: 0; top: -2px; bottom: -2px; width: 2px; background: radial-gradient(circle, var(--dot) 0 1px, transparent 1.25px) center top / 2px 4px repeat-y; }
+.q-side-sub > li:first-child::before { top: -15px; }
+.q-side-sub > li:last-child::before { bottom: 50%; }
+.q-side-sub > li::after { content: ""; position: absolute; inset-inline-start: 0; top: calc(50% - 1px); width: 14px; height: 2px; background: radial-gradient(circle, var(--dot) 0 1px, transparent 1.25px) right center / 4px 2px repeat-x; }
+.q-side-sub .q-side-link { min-height: 40px; padding: 6px 10px; gap: 10px; }
+.q-side-sub .q-side-link .q-ico { --q-ico-size: 28px; --q-ico-radius: 8px; }
+.q-side-sub .q-side-text { font-size: .8125rem; font-weight: 500; }
+.q-side-sub .q-side-link.is-on::after { display: none; }
+.q-side-foot { padding: 12px; border-top: 1px solid rgba(255, 255, 255, .07); display: flex; justify-content: flex-end; }
+.q-side-collapse { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 8px; border: 1px solid rgba(255, 255, 255, .08); background: rgba(255, 255, 255, .04); color: var(--q-muted); cursor: pointer; }
+.q-side-collapse:hover { color: var(--q-gold); background: var(--q-gold-soft); border-color: var(--q-gold-line); }
+[dir="rtl"] .q-side-collapse i { transform: scaleX(-1); }
+.q-sidebar.is-mini .q-side-collapse i { transform: none; }
+[dir="ltr"] .q-sidebar.is-mini .q-side-collapse i { transform: scaleX(-1); }
+/* the icon rail */
+@media (min-width: 992px) {
+  .q-sidebar.is-mini { width: var(--q-sidebar-mini); }
+  .q-sidebar.is-mini .q-side-text, .q-sidebar.is-mini .q-side-brand, .q-sidebar.is-mini .q-badge, .q-sidebar.is-mini .q-side-toggle, .q-sidebar.is-mini .q-side-sub { display: none; }
+  .q-sidebar.is-mini .q-side-head { justify-content: center; padding: 0; }
+  .q-sidebar.is-mini .q-side-nav { padding: 12px 0; }
+  .q-sidebar.is-mini .q-side-link { width: 48px; height: 48px; min-height: 0; padding: 0; margin: 10px auto; justify-content: center; border-radius: 50%; overflow: visible; }
+  .q-sidebar.is-mini .q-side-link:hover { transform: none; background: transparent; }
+  .q-sidebar.is-mini .q-side-link::after { display: none; }
+  .q-sidebar.is-mini .q-side-link .q-ico { width: 100%; height: 100%; border-radius: 50%; }
+  .q-sidebar.is-mini .q-side-link.is-on .q-ico { border: 2px solid var(--q-gold); box-shadow: 0 0 16px rgba(201, 168, 76, .4), inset 0 0 8px rgba(201, 168, 76, .12); transform: scale(1.08); }
+  .q-sidebar.is-mini .q-side-foot { justify-content: center; }
+}
+/* the drawer */
+.q-overlay { position: fixed; inset: 0; z-index: var(--q-z-overlay); background: rgba(0, 0, 0, .65); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; visibility: hidden; transition: opacity var(--q-t), visibility var(--q-t); }
+.q-overlay.is-on { opacity: 1; visibility: visible; }
+@media (max-width: 991px) {
+  .q-sidebar, .q-sidebar.is-mini { width: min(280px, 86vw); transform: translateX(100%); z-index: var(--q-z-drawer); }
+  [dir="ltr"] .q-sidebar { transform: translateX(-100%); }
+  .q-sidebar.is-drawer-open { transform: none !important; box-shadow: var(--q-sh-xl); }
+  .q-sidebar .q-side-foot { display: none; }
+}
+/* the ☰ button (three lines; turns into ✕ when the drawer is open) */
+.q-burger { width: 42px; height: 42px; display: none; place-items: center; border-radius: 12px; border: 1px solid rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .07); cursor: pointer; }
+@media (max-width: 991px) { .q-burger { display: inline-grid; } }
+.q-burger span { position: relative; width: 20px; height: 2px; border-radius: 2px; background: var(--q-text); transition: background var(--q-t-fast); }
+.q-burger span::before, .q-burger span::after { content: ""; position: absolute; inset-inline-start: 0; width: 20px; height: 2px; border-radius: 2px; background: var(--q-text); transition: transform var(--q-t), top var(--q-t); }
+.q-burger span::before { top: -6px; } .q-burger span::after { top: 6px; }
+.q-burger[aria-expanded="true"] span { background: transparent; }
+.q-burger[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+.q-burger[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+
+/* TOPBAR — glass, sticky */
+.q-topbar { position: sticky; top: 0; z-index: var(--q-z-topbar); height: var(--q-topbar); display: flex; align-items: center; gap: 12px; padding: 0 var(--q-pad); background: var(--q-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--q-line); }
+.q-topbar .q-grow { flex: 1; min-width: 0; }
+.q-avatar { width: 38px; height: 38px; flex: none; display: grid; place-items: center; overflow: hidden; border-radius: 50%; background: var(--q-gold-soft); color: var(--q-gold); font-weight: 800; border: 1px solid var(--q-gold-line); }
+.q-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+/* BOTTOM NAV — phones only; a raised centre action */
+.q-bottomnav { position: fixed; inset-inline: 0; bottom: 0; z-index: var(--q-z-bottomnav); height: calc(var(--q-bottomnav) + env(safe-area-inset-bottom, 0px)); padding: 0 8px env(safe-area-inset-bottom, 0px); display: none; align-items: center; justify-content: space-around; background: var(--q-surface); border-top: 1px solid var(--q-line); }
+@media (max-width: 991px) { .q-bottomnav { display: flex; } }
+.q-bn-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 2px; border-radius: var(--q-r-md); color: var(--q-muted); font-size: var(--q-fs-xs); font-weight: 600; text-decoration: none; position: relative; }
+.q-bn-item i { width: 38px; height: 28px; display: grid; place-items: center; border-radius: var(--q-r-sm); font-size: var(--q-fs-md); }
+.q-bn-item.is-on { color: var(--q-gold); }
+.q-bn-item.is-on i { background: var(--q-gold-glow); }
+.q-bn-item .q-badge { position: absolute; top: 0; inset-inline-end: 22%; }
+.q-bn-main { width: 56px; height: 56px; margin-top: -22px; flex: none; display: grid; place-items: center; border-radius: 50%; background: linear-gradient(135deg, var(--q-gold), var(--q-gold-dim)); color: #111; font-size: 1.2rem; box-shadow: var(--q-sh-gold), 0 0 0 6px var(--q-surface); }
+
+/* MENU — the ⋮ / dropdown: more than two actions fold into it (qarn.js keeps it on screen) */
+.q-menu { position: relative; display: inline-flex; }
+.q-menu-pop { position: absolute; z-index: var(--q-z-menu); top: calc(100% + 6px); inset-inline-end: 0; min-width: 200px; max-height: 320px; overflow: auto; padding: 6px; border-radius: var(--q-r-lg); background: var(--q-card); border: 1px solid var(--q-line-2); box-shadow: 0 16px 40px rgba(0, 0, 0, .45); animation: q-pop-in .14s var(--q-ease); }
+.q-menu-pop[hidden] { display: none; }
+.q-menu-pop.is-start { inset-inline-end: auto; inset-inline-start: 0; }
+.q-menu-item { width: 100%; display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 12px; background: transparent; color: var(--q-text); font: inherit; font-size: var(--q-fs-sm); text-align: start; cursor: pointer; text-decoration: none; }
+.q-menu-item > i:first-child { width: 18px; text-align: center; color: var(--q-accent); }
+.q-menu-item:hover, .q-menu-item.is-on { background: var(--q-card-alt); }
+.q-menu-item.is-danger, .q-menu-item.is-danger > i { color: var(--q-danger); }
+@media (max-width: 560px) { .q-menu-pop { position: fixed; inset-inline: 12px; top: auto; bottom: 16px; max-height: 55vh; } }
+
+/* BREADCRUMB — where a section sits */
+.q-crumb { display: inline-flex; align-items: center; gap: 6px; font-size: var(--q-fs-xs); color: var(--q-muted); }
+.q-crumb a:hover { color: var(--q-accent); }
+.q-crumb .q-sep { opacity: .5; }
+
+/* ── 10 feedback ────────────────────────────────────────────────────────── */
+/* note / alert — info, success, warning, danger, and "new" (blue) */
+.q-alert { --a: var(--q-muted); display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-radius: var(--q-r-lg); border: 1px solid color-mix(in srgb, var(--a) 30%, transparent); background: color-mix(in srgb, var(--a) 9%, transparent); color: var(--q-text-2); font-size: var(--q-fs-sm); line-height: 1.8; }
+.q-alert > i { color: var(--a); margin-top: 4px; }
+.q-alert > .q-grow { flex: 1; min-width: 0; }
+.q-alert.is-info { --a: var(--q-info); } .q-alert.is-success { --a: var(--q-success); } .q-alert.is-warning { --a: var(--q-warning); } .q-alert.is-danger { --a: var(--q-danger); } .q-alert.is-gold { --a: var(--q-accent); }
+/* toast — bottom centre, stacks; qarn.js: Qarn.toast(text, 'success'|'error'|'warning'|'info') */
+.q-toasts { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: var(--q-z-toast); display: flex; flex-direction: column; align-items: center; gap: 10px; pointer-events: none; width: max-content; max-width: calc(100vw - 32px); }
+.q-toast { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 14px; background: var(--q-card); border: 1px solid var(--q-line-2); box-shadow: var(--q-sh-lg); color: var(--q-text); font-size: var(--q-fs-sm); pointer-events: auto; animation: q-toast-in .3s var(--q-ease-bounce) both; }
+.q-toast.is-out { animation: q-toast-out .25s var(--q-ease) both; }
+.q-toast > i { font-size: 1.1rem; }
+.q-toast.is-success > i { color: var(--q-success); } .q-toast.is-error > i { color: var(--q-danger); } .q-toast.is-warning > i { color: var(--q-warning); } .q-toast.is-info > i { color: var(--q-info); }
+@media (max-width: 480px) { .q-toasts { bottom: 16px; width: calc(100vw - 32px); } .q-toast { width: 100%; } }
+@media (max-width: 991px) { body:has(.q-bottomnav) .q-toasts { bottom: calc(var(--q-bottomnav) + env(safe-area-inset-bottom, 0px) + 16px); } }
+/* dialog — an in-page question (never window.confirm / prompt) */
+.q-dialog { position: fixed; inset: 0; z-index: var(--q-z-dialog); display: grid; place-items: center; padding: 16px; background: rgba(0, 0, 0, .6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); animation: q-fade .15s ease; }
+.q-dialog-card { width: min(440px, 100%); display: flex; flex-direction: column; gap: 14px; padding: 20px; border-radius: var(--q-r-xl); background: var(--q-card); border: 1px solid var(--q-line-2); box-shadow: 0 24px 60px rgba(0, 0, 0, .5); animation: q-pop-in .18s var(--q-ease); }
+.q-dialog-head { display: flex; align-items: flex-start; gap: 12px; }
+.q-dialog-head b { font-size: var(--q-fs-md); line-height: 1.6; }
+.q-dialog-head p { margin: 4px 0 0; color: var(--q-text-2); font-size: var(--q-fs-sm); line-height: 1.8; }
+.q-dialog.is-danger .q-ico { --ic: var(--q-danger); }
+.q-dialog.is-danger .q-btn.is-primary { --b-bg: var(--q-danger); --b-fg: #fff; box-shadow: none; }
+.q-dialog-acts { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+/* empty state */
+.q-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 36px 16px; text-align: center; color: var(--q-muted); background: var(--q-card); border: 1px dashed var(--q-line-2); border-radius: var(--q-r-xl); }
+.q-empty > i { font-size: 1.8rem; color: var(--q-accent); }
+.q-empty h3 { margin: 0; color: var(--q-text); font-size: var(--q-fs-lg); }
+.q-empty p { margin: 0; font-size: var(--q-fs-sm); }
+/* skeleton — reserve the space of anything that loads late (no layout jump) */
+.q-skel { position: relative; overflow: hidden; border-radius: var(--q-r-md); background: var(--q-card-alt); min-height: 14px; }
+.q-skel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .05), transparent); transform: translateX(-100%); animation: q-shimmer 1.5s infinite; }
+.q-skel.is-text { height: 14px; } .q-skel.is-title { height: 28px; width: 40%; } .q-skel.is-card { height: 120px; border-radius: var(--q-r-xl); } .q-skel.is-avatar { width: 44px; height: 44px; border-radius: 50%; }
+/* a score ring (health 0–100): style="--v:72" */
+.q-ring { --v: 0; --c: var(--q-accent); width: var(--q-ring, 80px); aspect-ratio: 1; flex: none; display: grid; place-items: center; border-radius: 50%; background: conic-gradient(var(--c) calc(var(--v) * 1%), rgba(127, 127, 127, .2) 0); position: relative; font-weight: 800; font-size: 1.2rem; }
+.q-ring::before { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--q-card); }
+.q-ring > span { position: relative; direction: ltr; }
+.q-ring.is-good { --c: var(--q-success); } .q-ring.is-warn { --c: var(--q-warning); } .q-ring.is-bad { --c: var(--q-danger); }
+/* a progress bar */
+.q-progress { height: 8px; border-radius: var(--q-r-pill); background: var(--q-card-alt); overflow: hidden; }
+.q-progress > span { display: block; height: 100%; width: var(--v, 0%); border-radius: inherit; background: linear-gradient(90deg, var(--q-gold-dim), var(--q-gold)); transition: width var(--q-t-slow); }
+/* a spinner */
+.q-spinner { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--q-line-3); border-top-color: var(--q-accent); animation: q-spin .8s linear infinite; }
+
+/* ── 11 motion ──────────────────────────────────────────────────────────── */
+@keyframes q-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes q-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes q-fade-down { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@keyframes q-pop-in { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes q-toast-in { from { opacity: 0; transform: translateY(16px) scale(.95); } to { opacity: 1; transform: none; } }
+@keyframes q-toast-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(8px) scale(.95); } }
+@keyframes q-shimmer { to { transform: translateX(100%); } }
+@keyframes q-spin { to { transform: rotate(360deg); } }
+@keyframes q-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.q-fade-up { animation: q-fade-up var(--q-t) both; }
+.q-fade-in { animation: q-fade var(--q-t) both; }
+.q-pulse { animation: q-pulse 1.6s ease-in-out infinite; }
+.q-lift { transition: transform var(--q-t-fast), box-shadow var(--q-t-fast); }
+.q-lift:hover { transform: translateY(-2px); box-shadow: var(--q-sh-lg); }
+/* a list that appears item by item: style="--i:0..n" on the children */
+.q-stagger > * { animation: q-fade-up .35s var(--q-ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ── 12 utilities ───────────────────────────────────────────────────────── */
+.q-gold { color: var(--q-gold); } .q-success { color: var(--q-success); } .q-danger { color: var(--q-danger); } .q-warning { color: var(--q-warning); } .q-info { color: var(--q-info); }
+.q-muted { color: var(--q-muted); } .q-text-2 { color: var(--q-text-2); }
+.q-h1 { font-size: var(--q-fs-3xl); font-weight: 800; margin: 0; } .q-h2 { font-size: var(--q-fs-2xl); font-weight: 800; margin: 0; } .q-h3 { font-size: var(--q-fs-lg); font-weight: 700; margin: 0; }
+.q-small { font-size: var(--q-fs-xs); } .q-bold { font-weight: 700; }
+.q-ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-grow { flex: 1; min-width: 0; }
+.q-hide-mobile { } @media (max-width: 560px) { .q-hide-mobile { display: none !important; } }
+.q-only-mobile { display: none !important; } @media (max-width: 560px) { .q-only-mobile { display: revert !important; } }
+.q-mt-0 { margin-top: 0; } .q-mb-0 { margin-bottom: 0; }
+
+</style>
+<style>
+/* ── Card Studio — page layout on top of Qarn (tokens only) ── */
+:root { --q-font: "Vazirmatn", "Inter", Tahoma, system-ui, sans-serif; }
+html:lang(en) { --q-font: "Inter", "Vazirmatn", system-ui, sans-serif; }
+html:lang(ja) { --q-font: "Noto Sans JP", "Inter", "Vazirmatn", system-ui, sans-serif; }
+body.q { min-height: 100vh; background:
+  radial-gradient(900px 500px at 100% -10%, var(--q-gold-glow), transparent 60%),
+  radial-gradient(700px 420px at -10% 110%, var(--q-info-bg), transparent 60%), var(--q-bg); background-attachment: fixed; }
+.st-top { position: sticky; top: 0; z-index: var(--q-z-topbar); display: flex; align-items: center; gap: var(--q-s3);
+  min-height: var(--q-topbar); padding: 8px var(--q-pad); background: var(--q-glass); backdrop-filter: blur(var(--q-blur));
+  -webkit-backdrop-filter: blur(var(--q-blur)); border-bottom: 1px solid var(--q-line); }
+.st-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.st-brand b { font-size: var(--q-fs-lg); font-weight: 800; white-space: nowrap; }
+.st-brand small { display: block; color: var(--q-muted); font-size: var(--q-fs-xs); white-space: nowrap; }
+.st-top .q-grow { flex: 1; }
+.st-main { width: min(100%, 1360px); margin-inline: auto; padding: var(--q-pad); display: flex; flex-direction: column; gap: var(--q-s4); }
+.st-grid { display: grid; gap: var(--q-s4); grid-template-columns: minmax(0, 1fr); align-items: start; }
+.st-preview { order: -1; }
+@media (min-width: 1100px) {
+  .st-grid { grid-template-columns: minmax(0, 1fr) minmax(420px, 560px); }
+  .st-preview { order: 0; position: sticky; top: calc(var(--q-topbar) + var(--q-s4)); }
+}
+.st-frame-wrap { display: flex; justify-content: center; padding: var(--q-s3); border-radius: var(--q-r-lg); background: var(--q-input); border: 1px solid var(--q-line); overflow: hidden; }
+.st-frame { display: block; width: 100%; height: min(78vh, 760px); border: 0; border-radius: var(--q-r-md); background: transparent; transition: width var(--q-t); }
+.st-frame-wrap.is-phone .st-frame { width: min(100%, 390px); box-shadow: 0 0 0 8px var(--q-card-alt), var(--q-sh-lg); border-radius: 28px; }
+.st-themes { display: grid; gap: var(--q-s2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.st-themes .q-radio-card { align-items: center; }
+.st-sw { width: 34px; height: 34px; flex: none; border-radius: 50%; box-shadow: 0 0 0 2px var(--q-line-2); }
+.st-sw[data-t="sakura"] { background: linear-gradient(135deg, #ffe4ee, #f49ac1); }
+.st-sw[data-t="christmas"] { background: linear-gradient(135deg, #1b5a44 50%, #d23b45 50%); }
+.st-sw[data-t="newyear"] { background: radial-gradient(circle at 70% 30%, #e6c06a 0 22%, #141a4a 24%); }
+.st-sw[data-t="modern"] { background: linear-gradient(135deg, #0d7f79, #3fb8a0); }
+.st-img { display: flex; align-items: center; gap: var(--q-s3); flex-wrap: wrap; }
+.st-thumb { width: 64px; height: 64px; flex: none; border-radius: var(--q-r-md); background: var(--q-card-alt) center / contain no-repeat;
+  border: 1px dashed var(--q-line-3); display: grid; place-items: center; color: var(--q-muted); }
+.st-thumb.is-round { border-radius: 50%; background-size: cover; }
+.st-thumb.has-img { border-style: solid; }
+.st-thumb.has-img i { display: none; }
+.st-img .q-input { flex: 1; min-width: 180px; }
+.st-file { position: relative; overflow: hidden; }
+.st-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.st-sub { margin: 0; font-size: var(--q-fs-sm); font-weight: 800; color: var(--q-text-2); }
+.st-steps { margin: 0; padding-inline-start: 1.3em; display: flex; flex-direction: column; gap: 6px; color: var(--q-text-2); font-size: var(--q-fs-sm); line-height: 1.8; }
+.st-steps code { font-family: var(--q-font-mono); font-size: .92em; padding: 1px 6px; border-radius: 6px; background: var(--q-card-alt); color: var(--q-gold); }
+.st-foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 8px; padding: var(--q-s4) var(--q-pad) var(--q-s8); color: var(--q-muted); font-size: var(--q-fs-xs); }
+.st-foot b { color: var(--q-gold); font-family: "Inter", var(--q-font); font-weight: 800; letter-spacing: .02em; }
+.q-trio > label[hidden] { display: none; }
+/* an LTR value (link, username, phone) inside an RTL page: the icon goes where the LTR text starts */
+html[dir="rtl"] .q-input-group:has(> .q-input[dir="ltr"]) > i { inset-inline-start: auto; inset-inline-end: 14px; }
+.q-seg button { white-space: nowrap; }
+/* hidden native scrollbars; a thin soft glass thumb shows only while the page scrolls */
+html, body.q { scrollbar-width: none; }
+html::-webkit-scrollbar, body.q::-webkit-scrollbar { display: none; }
+.st-glass-scroll { position: fixed; top: 0; right: 3px; z-index: var(--q-z-toast); width: 5px; height: 40px; border-radius: var(--q-r-pill); pointer-events: none;
+  background: color-mix(in srgb, var(--q-text) 22%, transparent); backdrop-filter: blur(10px) saturate(1.4); -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22), 0 2px 8px rgba(0, 0, 0, .2); opacity: 0; transition: opacity .45s var(--q-ease); }
+.st-glass-scroll.is-on { opacity: 1; transition-duration: .15s; }
+/* login gate — nothing of the studio is shown until the owner signs in */
+body.is-locked .st-top, body.is-locked .st-main, body.is-locked .st-foot { display: none; }
+.st-login { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--q-s4); padding: var(--q-pad); }
+.st-login[hidden], .q-alert[hidden] { display: none; }
+.st-login-card { width: min(100%, 420px); display: flex; flex-direction: column; gap: var(--q-s4); padding: clamp(20px, 5vw, 32px); border-radius: var(--q-r-3xl);
+  background: var(--q-glass); backdrop-filter: blur(var(--q-blur)); -webkit-backdrop-filter: blur(var(--q-blur)); border: 1px solid var(--q-line-2); box-shadow: var(--q-sh-xl); }
+.st-login-head { display: flex; align-items: center; gap: var(--q-s3); }
+.st-login-head b { display: block; font-size: var(--q-fs-xl); font-weight: 800; }
+.st-login-head small { color: var(--q-muted); font-size: var(--q-fs-sm); }
+.st-login-head .q-grow { flex: 1; min-width: 0; }
+.st-login-note { margin: 0; color: var(--q-muted); font-size: var(--q-fs-xs); line-height: 1.8; text-align: center; }
+.st-pass .q-input { padding-right: 46px; }                 /* the value is an LTR island: the eye sits at its right end */
+.st-eye { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; display: grid; place-items: center;
+  border: 0; border-radius: var(--q-r-pill); background: transparent; color: var(--q-muted); cursor: pointer; }
+.st-eye:hover { color: var(--q-text); background: var(--q-hover); }
+.st-show-sm { display: none; }
+@media (max-width: 640px) {
+  .st-hide-sm { display: none !important; } .st-show-sm { display: inline; }
+  .st-top { gap: var(--q-s2); padding-inline: var(--q-s3); }
+  .st-brand > span:last-child { display: none; }
+  .st-top .q-btn.is-primary { padding-inline: 14px; }
+}
+</style>
+</head>
+<body class="q is-locked">
+
+<!-- sign-in only (no sign-up): the owner's e-mail and password -->
+<section class="st-login" id="login">
+  <form class="st-login-card q-fade-up" id="loginForm" novalidate>
+    <div class="st-login-head">
+      <span class="q-ico xl"><i class="fa-solid fa-id-card"></i></span>
+      <span class="q-grow"><b>Card Studio</b><small data-i18n="loginSub"></small></span>
+      <div class="q-seg" id="loginLang" role="group" aria-label="language">
+        <button type="button" data-value="fa" lang="fa">فا</button><button type="button" data-value="en">EN</button><button type="button" data-value="ja" lang="ja">日本</button></div>
+    </div>
+    <label class="q-field"><span class="q-label" data-i18n="fEmail"></span>
+      <span class="q-input-group"><i class="fa-solid fa-envelope"></i><input class="q-input" id="loginEmail" dir="ltr" type="email" autocomplete="username" spellcheck="false" required></span></label>
+    <label class="q-field"><span class="q-label" data-i18n="password"></span>
+      <span class="q-input-group st-pass"><i class="fa-solid fa-lock"></i><input class="q-input" id="loginPass" dir="ltr" type="password" autocomplete="current-password" required>
+        <button type="button" class="st-eye" id="eye" data-i18n-aria="show"><i class="fa-regular fa-eye"></i></button></span></label>
+    <div class="q-alert is-danger" id="loginErr" role="alert" hidden><i class="fa-solid fa-circle-xmark"></i><span class="q-grow" id="loginErrText"></span></div>
+    <button class="q-btn is-primary is-block lg" type="submit" id="loginBtn"><i class="fa-solid fa-right-to-bracket"></i><span data-i18n="signIn"></span></button>
+    <p class="st-login-note" data-i18n="loginNote"></p>
+  </form>
+  <p class="st-login-note"><span data-i18n="madeBy"></span> <b dir="ltr" style="color:var(--q-gold)">zuldev</b> — Saber Zulqarnain</p>
+</section>
+
+<header class="st-top">
+  <div class="st-brand"><span class="q-ico"><i class="fa-solid fa-id-card"></i></span>
+    <span><b>Card Studio</b><small data-i18n="tagline"></small></span></div>
+  <span class="q-grow"></span>
+  <div class="q-seg" id="uiLang" role="group" aria-label="language">
+    <button data-value="fa" lang="fa">فا</button><button data-value="en">EN</button><button data-value="ja" lang="ja">日本</button></div>
+  <a class="q-btn is-ghost st-hide-sm" href="index.html" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i><span data-i18n="open"></span></a>
+  <button class="q-btn is-primary" id="exportBtn" type="button"><i class="fa-solid fa-file-export"></i><span class="st-hide-sm" data-i18n="export"></span><span class="st-show-sm" data-i18n="exportShort"></span></button>
+  <div class="q-menu">
+    <button class="q-btn is-icon" data-q-menu aria-expanded="false" data-i18n-aria="more"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+    <div class="q-menu-pop" hidden>
+      <button class="q-menu-item" data-act="json"><i class="fa-solid fa-file-code"></i><span data-i18n="dlJson"></span></button>
+      <button class="q-menu-item" data-act="copy"><i class="fa-regular fa-copy"></i><span data-i18n="copyJson"></span></button>
+      <button class="q-menu-item" data-act="import"><i class="fa-solid fa-file-import"></i><span data-i18n="import"></span></button>
+      <button class="q-menu-item" data-act="published"><i class="fa-solid fa-cloud-arrow-down"></i><span data-i18n="loadPublished"></span></button>
+      <button class="q-menu-item" data-act="login"><i class="fa-solid fa-key"></i><span data-i18n="changeLogin"></span></button>
+      <button class="q-menu-item" data-act="logout"><i class="fa-solid fa-right-from-bracket"></i><span data-i18n="logout"></span></button>
+      <button class="q-menu-item is-danger" data-act="reset"><i class="fa-solid fa-rotate-left"></i><span data-i18n="reset"></span></button>
+    </div>
+  </div>
+  <input type="file" id="importFile" accept=".json,.html,application/json,text/html" hidden>
+</header>
+
+<main class="st-main">
+  <section class="q-hero q-fade-up">
+    <span class="q-ico lg"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+    <div class="q-hero-text"><h2 data-i18n="heroTitle"></h2><p data-i18n="heroText"></p></div>
+    <span class="q-chip is-success is-dot" id="saveChip" data-i18n="autosave"></span>
+  </section>
+
+  <div class="st-grid">
+    <div class="q-stack" style="--q-gap: var(--q-s4)">
+
+      <!-- design -->
+      <section class="q-card is-open" data-q-remember="st-design">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-palette"></i></span>
+          <span class="q-card-title"><b data-i18n="cDesign"></b><small data-i18n="cDesignSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <div class="st-themes" id="themes"></div>
+          <label class="q-switch"><input type="checkbox" data-k="allowThemeSwitch"><span class="q-switch-track"></span><span data-i18n="allowSwitch"></span></label>
+          <p class="st-sub" data-i18n="langsTitle"></p>
+          <div class="q-cluster" id="langChecks"></div>
+          <div class="q-form">
+            <label class="q-field"><span class="q-label" data-i18n="defaultLang"></span><select class="q-select" data-k="defaultLang" id="defaultLang"></select></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- identity -->
+      <section class="q-card is-open" data-q-remember="st-identity">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-user"></i></span>
+          <span class="q-card-title"><b data-i18n="cIdentity"></b><small data-i18n="cIdentitySub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <p class="st-sub" data-i18n="fName"></p><div class="q-trio" data-trio="name"></div>
+          <p class="st-sub" data-i18n="fTitle"></p><div class="q-trio" data-trio="title"></div>
+          <p class="st-sub" data-i18n="fCompany"></p><div class="q-trio" data-trio="company"></div>
+        </div>
+      </section>
+
+      <!-- contact -->
+      <section class="q-card" data-q-remember="st-contact">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-address-book"></i></span>
+          <span class="q-card-title"><b data-i18n="cContact"></b><small data-i18n="cContactSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body">
+          <div class="q-form">
+            <label class="q-field"><span class="q-label" data-i18n="fPhone"></span><span class="q-input-group"><i class="fa-solid fa-phone"></i><input class="q-input" dir="ltr" type="tel" data-k="phone" placeholder="+81 90-0000-0000"></span></label>
+            <label class="q-field"><span class="q-label" data-i18n="fEmail"></span><span class="q-input-group"><i class="fa-solid fa-envelope"></i><input class="q-input" dir="ltr" type="email" data-k="email" placeholder="you@example.com"></span></label>
+            <label class="q-field is-wide"><span class="q-label" data-i18n="fWebsite"></span><span class="q-input-group"><i class="fa-solid fa-globe"></i><input class="q-input" dir="ltr" type="url" data-k="website" placeholder="https://example.com"></span></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- images -->
+      <section class="q-card" data-q-remember="st-images">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-image"></i></span>
+          <span class="q-card-title"><b data-i18n="cImages"></b><small data-i18n="cImagesSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <div class="q-field"><span class="q-label" data-i18n="fPhoto"></span><div class="st-img" data-img="photo" data-round></div><span class="q-hint" data-i18n="hPhoto"></span></div>
+          <div class="q-field"><span class="q-label" data-i18n="fLogo"></span><div class="st-img" data-img="logo"></div><span class="q-hint" data-i18n="hLogo"></span></div>
+        </div>
+      </section>
+
+      <!-- QR -->
+      <section class="q-card" data-q-remember="st-qr">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-qrcode"></i></span>
+          <span class="q-card-title"><b data-i18n="cQr"></b><small data-i18n="cQrSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <div class="q-seg" id="qrMode"><button data-value="page" data-i18n="qrPage"></button><button data-value="vcard" data-i18n="qrVcard"></button><button data-value="custom" data-i18n="qrCustom"></button></div>
+          <div class="q-form">
+            <label class="q-field is-wide"><span class="q-label" data-i18n="fPageUrl"></span><span class="q-input-group"><i class="fa-brands fa-github"></i><input class="q-input" dir="ltr" type="url" data-k="pageUrl" placeholder="https://username.github.io/card/"></span><span class="q-hint" data-i18n="hPageUrl"></span></label>
+            <label class="q-field is-wide" id="qrCustomField"><span class="q-label" data-i18n="fQrValue"></span><input class="q-input" dir="ltr" data-k="qr.value" placeholder="https://…"></label>
+          </div>
+        </div>
+      </section>
+
+      <!-- social -->
+      <section class="q-card" data-q-remember="st-social">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-share-nodes"></i></span>
+          <span class="q-card-title"><b data-i18n="cSocial"></b><small data-i18n="cSocialSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <div class="q-form">
+            <label class="q-field"><span class="q-label">YouTube</span><span class="q-input-group"><i class="fa-brands fa-youtube"></i><input class="q-input" dir="ltr" data-k="social.youtube" placeholder="@yourname"></span></label>
+            <label class="q-field"><span class="q-label">Instagram</span><span class="q-input-group"><i class="fa-brands fa-instagram"></i><input class="q-input" dir="ltr" data-k="social.instagram" placeholder="yourname"></span></label>
+            <label class="q-field"><span class="q-label">TikTok</span><span class="q-input-group"><i class="fa-brands fa-tiktok"></i><input class="q-input" dir="ltr" data-k="social.tiktok" placeholder="@yourname"></span></label>
+            <label class="q-field"><span class="q-label">GitHub</span><span class="q-input-group"><i class="fa-brands fa-github"></i><input class="q-input" dir="ltr" data-k="social.github" placeholder="yourname"></span></label>
+            <label class="q-field is-wide"><span class="q-label">LinkedIn</span><span class="q-input-group"><i class="fa-brands fa-linkedin-in"></i><input class="q-input" dir="ltr" data-k="social.linkedin" placeholder="yourname"></span></label>
+          </div>
+          <div class="q-alert is-info"><i class="fa-solid fa-circle-info"></i><span class="q-grow" data-i18n="hSocial"></span></div>
+          <p class="st-sub"><i class="fa-brands fa-line" style="color:#06c755"></i> LINE</p>
+          <div class="q-form">
+            <label class="q-field"><span class="q-label" data-i18n="fLineId"></span><span class="q-input-group"><i class="fa-solid fa-at"></i><input class="q-input" dir="ltr" data-k="line.id" placeholder="yourname"></span></label>
+            <label class="q-field"><span class="q-label" data-i18n="fLineUrl"></span><input class="q-input" dir="ltr" type="url" data-k="line.url" placeholder="https://line.me/ti/p/…"></label>
+            <div class="q-field is-wide"><span class="q-label" data-i18n="fLineQr"></span><div class="st-img" data-img="line.qr"></div><span class="q-hint" data-i18n="hLineQr"></span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- projects -->
+      <section class="q-card" data-q-remember="st-projects">
+        <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-folder-open"></i></span>
+          <span class="q-card-title"><b data-i18n="cProjects"></b><small data-i18n="cProjectsSub"></small></span><span class="q-badge" id="projBadge">0</span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body q-stack">
+          <div class="q-stack" id="projList"></div>
+          <div class="q-actions"><button class="q-btn is-soft" type="button" id="addProj"><i class="fa-solid fa-plus"></i><span data-i18n="addProject"></span></button></div>
+        </div>
+      </section>
+
+      <!-- publish guide -->
+      <section class="q-card" data-q-remember="st-guide">
+        <button class="q-card-head" type="button"><span class="q-ico is-info"><i class="fa-brands fa-github"></i></span>
+          <span class="q-card-title"><b data-i18n="cGuide"></b><small data-i18n="cGuideSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-card-body"><ol class="st-steps" id="guide"></ol></div>
+      </section>
+    </div>
+
+    <!-- live preview -->
+    <section class="q-card is-open st-preview" data-q-remember="st-preview">
+      <button class="q-card-head" type="button"><span class="q-ico"><i class="fa-solid fa-eye"></i></span>
+        <span class="q-card-title"><b data-i18n="cPreview"></b><small data-i18n="cPreviewSub"></small></span><i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+      <div class="q-card-body q-stack">
+        <div class="q-spread">
+          <div class="q-seg" id="device"><button data-value="phone" class="is-on"><i class="fa-solid fa-mobile-screen"></i></button><button data-value="desktop"><i class="fa-solid fa-display"></i></button></div>
+          <button class="q-btn sm" type="button" id="printBtn"><i class="fa-solid fa-print"></i><span data-i18n="print"></span></button>
+        </div>
+        <div class="st-frame-wrap is-phone" id="frameWrap"><iframe class="st-frame" id="frame" data-src="index.html?preview=1" title="preview"></iframe></div>
+      </div>
+    </section>
+  </div>
+</main>
+<footer class="st-foot"><span>© <span id="year"></span> Card Studio</span><span aria-hidden="true">·</span><span><span data-i18n="madeBy"></span> <b dir="ltr" title="Saber Zulqarnain">zuldev</b> — Saber Zulqarnain</span></footer>
+
+<script>
+/* Qarn Style kit (qarn.js v1.0), inlined */
+/* ============================================================================
+ * Qarn Style — qarn.js  (v1.0)
+ * The behaviour of qarn.css, framework-free. One delegated listener per event
+ * on `document`, so markup added later (innerHTML, a SPA view) works without
+ * re-initialising anything. Load it once:  <script src="qarn.js" defer><\/script>
+ * It sets window.Qarn (and module.exports under CommonJS / a bundler).
+ *
+ *   Markup (no JS calls needed)
+ *     tabs     <nav class="q-tabs" data-q-tabs="NAME"> <button class="q-tab" data-tab="ID">
+ *              panels: <section class="q-tabpanel" data-q-panel="NAME:ID" hidden>
+ *              hint:   <p class="q-tabpick" data-q-pick="NAME">
+ *              rule: nothing open at first; a click opens, a click on the open tab closes.
+ *     fold     .q-card > .q-card-head   ·   .q-row > .q-row-head      (toggles .is-open)
+ *              data-q-remember="KEY" on the card keeps its state in localStorage.
+ *     sidebar  .q-sidebar (+ data-q-sidebar="KEY" to remember mini mode)
+ *              [data-q-collapse]  icon rail on/off   ·  .q-side-toggle  group +/−
+ *              [data-q-drawer]    the ☰ button (phones)  ·  .q-overlay closes it
+ *     menu     <div class="q-menu"><button data-q-menu>…</button><div class="q-menu-pop" hidden>…
+ *              kept on screen (flips side near an edge), closes outside / Escape / on pick
+ *     seg      .q-seg > button   (one is-on; fires "q:change" with detail.value = data-value)
+ *     theme    [data-q-theme="light|dark|toggle"]
+ *
+ *   API
+ *     Qarn.toast(text, type = 'success'|'error'|'warning'|'info', ms = 3200)
+ *     await Qarn.ask({ title, body, ok, cancel, danger, icon, input })  → true | 'text' | null
+ *     Qarn.theme('light' | 'dark' | 'toggle')
+ *     Qarn.money(1500, 'AF') → "1,500 AF"   (the amount first, then the symbol)
+ *     Qarn.esc(text)                         → HTML-safe text for innerHTML
+ *     Qarn.openTab(name, id) · Qarn.fold(el, open?) · Qarn.drawer(open?)
+ * ========================================================================== */
+(function (root, factory) {
+  const Q = factory();
+  if (typeof window !== 'undefined') window.Qarn = Q;
+  if (typeof module === 'object' && module.exports) module.exports = Q;
+}(typeof self !== 'undefined' ? self : this, () => {
+  const doc = typeof document !== 'undefined' ? document : null;
+  const store = {
+    get(k, d = null) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch { /* private mode */ } },
+  };
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const lang = () => String(doc?.documentElement.lang || 'fa').slice(0, 2);
+  const WORDS = { fa: ['تأیید', 'انصراف'], en: ['OK', 'Cancel'], ja: ['OK', 'キャンセル'], ar: ['تأكيد', 'إلغاء'], ps: ['تایید', 'لغوه'] };
+  const isPhone = () => typeof window !== 'undefined' && window.matchMedia('(max-width: 991px)').matches;
+
+  /* ── tabs ──────────────────────────────────────────────────────────── */
+  function openTab(name, id) {
+    const bar = doc.querySelector(`[data-q-tabs="${CSS.escape(name)}"]`);
+    if (!bar) return;
+    bar.querySelectorAll('.q-tab').forEach((t) => {
+      const on = !!id && t.dataset.tab === id;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', String(on));
+    });
+    doc.querySelectorAll(`[data-q-panel^="${CSS.escape(name)}:"]`).forEach((p) => { p.hidden = p.dataset.qPanel !== `${name}:${id}`; });
+    const pick = doc.querySelector(`[data-q-pick="${CSS.escape(name)}"]`);
+    if (pick) pick.hidden = !!id;
+    bar.dispatchEvent(new CustomEvent('q:tab', { bubbles: true, detail: { name, id: id || '' } }));
+  }
+
+  /* ── fold (cards and rows) ─────────────────────────────────────────── */
+  function fold(el, open) {
+    const now = open ?? !el.classList.contains('is-open');
+    el.classList.toggle('is-open', now);
+    el.querySelector(':scope > .q-card-head, :scope > .q-row-head')?.setAttribute('aria-expanded', String(now));
+    if (el.dataset.qRemember) store.set(`q_fold:${el.dataset.qRemember}`, now);
+    return now;
+  }
+  function restoreFolds(scope = doc) {
+    scope.querySelectorAll('[data-q-remember]').forEach((el) => {
+      const v = store.get(`q_fold:${el.dataset.qRemember}`);
+      if (typeof v === 'boolean') fold(el, v);
+    });
+  }
+
+  /* ── sidebar ───────────────────────────────────────────────────────── */
+  const GROUPS = 'q_side_groups';
+  function setGroup(li, open) {
+    li.classList.toggle('is-open', open);
+    const b = li.querySelector(':scope > .q-side-row > .q-side-toggle');
+    if (b) {
+      b.setAttribute('aria-expanded', String(open));
+      const i = b.querySelector('i');
+      if (i) i.className = `fa-solid ${open ? 'fa-minus' : 'fa-plus'}`;
+    }
+    if (li.dataset.group) { const g = store.get(GROUPS, {}); g[li.dataset.group] = open; store.set(GROUPS, g); }
+  }
+  function restoreSidebar(scope = doc) {
+    scope.querySelectorAll('.q-sidebar[data-q-sidebar]').forEach((s) => {
+      const mini = store.get(`q_side_mini:${s.dataset.qSidebar}`, false);
+      s.classList.toggle('is-mini', !!mini);
+      s.closest('.q-app')?.classList.toggle('is-mini', !!mini);
+    });
+    const g = store.get(GROUPS, {});
+    scope.querySelectorAll('.q-side-group').forEach((li) => {
+      const here = !!li.querySelector('.q-side-sub .is-on');
+      setGroup(li, here || g[li.dataset.group] === true || li.classList.contains('is-open'));
+    });
+  }
+  function drawer(open) {
+    const side = doc.querySelector('.q-sidebar');
+    if (!side) return;
+    const now = open ?? !side.classList.contains('is-drawer-open');
+    side.classList.toggle('is-drawer-open', now);
+    doc.querySelector('.q-overlay')?.classList.toggle('is-on', now);
+    doc.querySelectorAll('[data-q-drawer]').forEach((b) => b.setAttribute('aria-expanded', String(now)));
+  }
+
+  /* ── menus (⋮) ─────────────────────────────────────────────────────── */
+  function closeMenus(except = null) {
+    doc.querySelectorAll('.q-menu-pop:not([hidden])').forEach((p) => {
+      if (p === except) return;
+      p.hidden = true;
+      p.parentElement?.querySelector('[data-q-menu]')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+  function fitMenu(pop) {
+    pop.classList.remove('is-start');
+    const w = doc.documentElement.clientWidth;
+    let r = pop.getBoundingClientRect();
+    if (r.left < 8 || r.right > w - 8) {
+      pop.classList.add('is-start');
+      r = pop.getBoundingClientRect();
+      if (r.left < 8 || r.right > w - 8) pop.classList.remove('is-start');
+    }
+  }
+
+  /* ── toast ─────────────────────────────────────────────────────────── */
+  const TOAST_ICON = { success: 'fa-circle-check', error: 'fa-circle-xmark', warning: 'fa-triangle-exclamation', info: 'fa-circle-info' };
+  function toast(text, type = 'success', ms = 3200) {
+    let box = doc.querySelector('.q-toasts');
+    if (!box) { box = doc.createElement('div'); box.className = 'q-toasts'; box.setAttribute('role', 'status'); box.setAttribute('aria-live', 'polite'); doc.body.appendChild(box); }
+    const t = doc.createElement('div');
+    t.className = `q-toast is-${TOAST_ICON[type] ? type : 'info'}`;
+    t.innerHTML = `<i class="fa-solid ${TOAST_ICON[type] || TOAST_ICON.info}"></i><span>${esc(text)}</span>`;
+    box.appendChild(t);
+    setTimeout(() => { t.classList.add('is-out'); setTimeout(() => t.remove(), 260); }, ms);
+    return t;
+  }
+
+  /* ── ask: the in-page dialog (never window.confirm / window.prompt) ─ */
+  let asking = null;
+  function ask({ title = '', body = '', text = '', ok = '', cancel = '', danger = false, icon = '', input = null } = {}) {
+    if (asking) asking(null);
+    body = body || text;
+    const [okW, cancelW] = WORDS[lang()] || WORDS.en;
+    const prev = doc.activeElement;
+    const host = doc.createElement('div');
+    host.className = `q-dialog${danger ? ' is-danger' : ''}`;
+    host.setAttribute('role', 'dialog');
+    host.setAttribute('aria-modal', 'true');
+    host.innerHTML = `<div class="q-dialog-card">
+        <div class="q-dialog-head"><span class="q-ico lg"><i class="fa-solid ${esc(icon || (danger ? 'fa-triangle-exclamation' : 'fa-circle-question'))}"></i></span>
+          <div class="q-grow"><b>${esc(title)}</b>${body ? `<p>${esc(body)}</p>` : ''}</div></div>
+        ${input ? `<input class="q-input" value="${esc(input.value || '')}" placeholder="${esc(input.placeholder || '')}" maxlength="${Number(input.maxlength) || 300}"${input.readonly ? ' readonly' : ''}>` : ''}
+        <div class="q-dialog-acts"><button type="button" class="q-btn is-ghost" data-ask="no">${esc(cancel || cancelW)}</button>
+          <button type="button" class="q-btn is-primary" data-ask="yes">${esc(ok || okW)}</button></div></div>`;
+    doc.body.appendChild(host);
+    const field = host.querySelector('.q-input');
+    return new Promise((resolve) => {
+      const close = (v) => { doc.removeEventListener('keydown', onKey, true); host.remove(); asking = null; try { prev?.focus?.(); } catch { /* gone */ } resolve(v); };
+      const yes = () => close(field ? field.value.trim() : true);
+      const onKey = (e) => {
+        if (e.key === 'Escape') { e.preventDefault(); close(null); }
+        else if (e.key === 'Enter' && (!field || doc.activeElement === field)) { e.preventDefault(); yes(); }
+      };
+      doc.addEventListener('keydown', onKey, true);
+      host.addEventListener('click', (e) => {
+        const b = e.target.closest('[data-ask]');
+        if (b) { if (b.dataset.ask === 'yes') yes(); else close(null); }
+        else if (e.target === host) close(null);
+      });
+      asking = close;
+      (field || host.querySelector('[data-ask="yes"]')).focus();
+      if (field && input.readonly) field.select();
+    });
+  }
+
+  /* ── theme ─────────────────────────────────────────────────────────── */
+  function theme(mode = 'toggle') {
+    const html = doc.documentElement;
+    const now = mode === 'toggle' ? (html.dataset.theme === 'light' ? 'dark' : 'light') : mode;
+    if (now === 'dark') delete html.dataset.theme; else html.dataset.theme = 'light';
+    store.set('q_theme', now);
+    return now;
+  }
+
+  /* ── money: the amount first, then the symbol ("150 AF", "1,000 ¥") ─ */
+  function money(amount, symbol = '', digits = 0) {
+    const n = Number(amount || 0).toLocaleString('en-US', { maximumFractionDigits: digits, minimumFractionDigits: 0 });
+    return symbol ? `${n} ${symbol}` : n;
+  }
+
+  /* ── one listener per event, for everything ─────────────────────────── */
+  function onClick(e) {
+    const t = e.target;
+    const tab = t.closest('.q-tab');
+    const bar = tab?.closest('[data-q-tabs]');
+    if (tab && bar) { const id = tab.dataset.tab; openTab(bar.dataset.qTabs, tab.classList.contains('is-on') ? '' : id); return; }
+
+    const head = t.closest('.q-card-head, .q-row-head');
+    if (head && !t.closest('a, input, select, textarea, .q-menu') && !head.closest('.q-card.is-static')) { fold(head.parentElement); return; }
+
+    const tg = t.closest('.q-side-toggle');
+    if (tg) { const li = tg.closest('.q-side-group'); if (li) setGroup(li, !li.classList.contains('is-open')); return; }
+
+    const col = t.closest('[data-q-collapse]');
+    if (col) {
+      const side = col.closest('.q-sidebar') || doc.querySelector('.q-sidebar');
+      const mini = !side.classList.contains('is-mini');
+      side.classList.toggle('is-mini', mini);
+      side.closest('.q-app')?.classList.toggle('is-mini', mini);
+      doc.querySelector('.q-app')?.classList.toggle('is-mini', mini);
+      if (side.dataset.qSidebar) store.set(`q_side_mini:${side.dataset.qSidebar}`, mini);
+      return;
+    }
+    if (t.closest('[data-q-drawer]') || t.closest('.q-overlay')) { drawer(t.closest('.q-overlay') ? false : undefined); return; }
+    if (isPhone() && t.closest('.q-sidebar .q-side-link') && !t.closest('.q-side-toggle')) drawer(false);
+
+    const mb = t.closest('[data-q-menu]');
+    if (mb) {
+      const pop = mb.parentElement.querySelector('.q-menu-pop');
+      if (pop) { const open = pop.hidden; closeMenus(pop); pop.hidden = !open; mb.setAttribute('aria-expanded', String(open)); if (open) fitMenu(pop); }
+      return;
+    }
+    if (t.closest('.q-menu-item')) { closeMenus(); }
+    else if (!t.closest('.q-menu-pop')) closeMenus();
+
+    const seg = t.closest('.q-seg > button');
+    if (seg) {
+      seg.parentElement.querySelectorAll(':scope > button').forEach((b) => { b.classList.toggle('is-on', b === seg); b.setAttribute('aria-pressed', String(b === seg)); });
+      seg.parentElement.dispatchEvent(new CustomEvent('q:change', { bubbles: true, detail: { value: seg.dataset.value ?? seg.textContent.trim() } }));
+      return;
+    }
+    const th = t.closest('[data-q-theme]');
+    if (th) theme(th.dataset.qTheme || 'toggle');
+  }
+  function onKey(e) {
+    if (e.key !== 'Escape') return;
+    closeMenus();
+    if (doc.querySelector('.q-sidebar.is-drawer-open')) drawer(false);
+  }
+  function init(scope = doc) {
+    restoreFolds(scope);
+    restoreSidebar(scope);
+    scope.querySelectorAll('.q-card').forEach((c) => c.querySelector(':scope > .q-card-head')?.setAttribute('aria-expanded', String(c.classList.contains('is-open'))));
+    // the tab bar's open tab stays in view on narrow screens
+    scope.querySelectorAll('.q-tabs .q-tab.is-on').forEach((on) => on.scrollIntoView({ block: 'nearest', inline: 'center' }));
+  }
+
+  if (doc) {
+    const saved = store.get('q_theme');
+    if (saved === 'light') doc.documentElement.dataset.theme = 'light';
+    doc.addEventListener('click', onClick);
+    doc.addEventListener('keydown', onKey);
+    if (doc.readyState === 'loading') doc.addEventListener('DOMContentLoaded', () => init()); else init();
+  }
+
+  return { toast, ask, theme, money, esc, openTab, fold, drawer, init, closeMenus, version: '1.0.0' };
+}));
+
+</script>
+<script>
+(() => {
+  'use strict';
+  const Q = window.Qarn;
+  const $ = (id) => document.getElementById(id);
+  const esc = Q.esc;
+
+  /* ── words ────────────────────────────────────────────────────────── */
+  const W = {
+    fa: {
+      tagline: 'مدیریت کارت ویزیت', open: 'نمایش صفحه', export: 'خروجی index.html', exportShort: 'خروجی', madeBy: 'طراحی و توسعه:', more: 'بیشتر',
+      dlJson: 'دانلود JSON', copyJson: 'کپی JSON', import: 'وارد کردن فایل (JSON / HTML)', loadPublished: 'بارگذاری از index.html فعلی', reset: 'پاک کردن پیش‌نویس',
+      heroTitle: 'استودیوی کارت ویزیت', heroText: 'مشخصات را وارد کنید، پیش‌نمایش زنده را ببینید و در پایان «خروجی index.html» بگیرید؛ همان فایل را در گیت‌هاب بگذارید.',
+      autosave: 'ذخیرهٔ خودکار پیش‌نویس',
+      cDesign: 'طرح و زبان‌ها', cDesignSub: 'ساکورا، کریسمس، سال نو یا مدرن',
+      themes: { sakura: ['ساکورا', 'صورتی شکوفه‌ای'], christmas: ['کریسمس', 'سبز کاج، قرمز، طلایی'], newyear: ['سال نو', 'سرمه‌ای و طلایی، آتش‌بازی'], modern: ['مدرن', 'فیروزه‌ای، روشن / تیره'] },
+      allowSwitch: 'بازدیدکننده بتواند طرح را عوض کند', langsTitle: 'زبان‌های فعال', defaultLang: 'زبان پیش‌فرض',
+      langNames: { fa: 'فارسی', en: 'English', ja: '日本語' },
+      cIdentity: 'مشخصات', cIdentitySub: 'نام، سمت و شرکت به سه زبان', fName: 'نام و نام خانوادگی', fTitle: 'سمت / عنوان شغلی', fCompany: 'شرکت / برند',
+      cContact: 'راه‌های تماس', cContactSub: 'تلفن، ایمیل، وب‌سایت', fPhone: 'تلفن', fEmail: 'ایمیل', fWebsite: 'وب‌سایت',
+      cImages: 'عکس و لوگو', cImagesSub: 'عکس شخص و لوگوی بالای کارت', fPhoto: 'عکس شخص', fLogo: 'لوگو',
+      hPhoto: 'بدون عکس، حروف اول نام نمایش داده می‌شود. عکس خودکار مربع و کوچک می‌شود.', hLogo: 'اگر لوگو نباشد، در کارت چیزی نمایش داده نمی‌شود. PNG شفاف بهتر است.',
+      imgUrl: 'آدرس تصویر (مثلاً images/me.jpg) یا آپلود', upload: 'آپلود', remove: 'حذف', uploaded: '(تصویر آپلودشده داخل فایل)',
+      cQr: 'کیوآر کد کارت', cQrSub: 'چه چیزی با اسکن باز شود', qrPage: 'لینک صفحه', qrVcard: 'مخاطب (vCard)', qrCustom: 'متن / لینک دلخواه',
+      fPageUrl: 'آدرس صفحهٔ گیت‌هاب', hPageUrl: 'اگر خالی باشد، آدرس همان صفحه خودکار استفاده می‌شود. برای چاپ بهتر است پر شود.', fQrValue: 'محتوای کیوآر',
+      cSocial: 'شبکه‌های اجتماعی و LINE', cSocialSub: 'آیکون‌ها با لینک، بدون نمایش لینک', hSocial: 'می‌توانید فقط نام کاربری یا لینک کامل بنویسید. خالی = آیکون نمایش داده نمی‌شود.',
+      fLineId: 'آیدی LINE', fLineUrl: 'لینک LINE (اختیاری)', fLineQr: 'تصویر کیوآر LINE (اختیاری)', hLineQr: 'اگر تصویر نباشد، کیوآر از روی آیدی/لینک ساخته می‌شود.',
+      cProjects: 'پروژه‌ها', cProjectsSub: 'نام و لینک پروژه‌ها', addProject: 'افزودن پروژه', pName: 'نام پروژه', pDesc: 'توضیح کوتاه', pUrl: 'لینک پروژه',
+      up: 'بالا', down: 'پایین', del: 'حذف', noProj: 'هنوز پروژه‌ای نیست', noProjText: 'با «افزودن پروژه» شروع کنید.', newProject: 'پروژهٔ جدید',
+      delAsk: 'این پروژه حذف شود؟',
+      cGuide: 'انتشار در GitHub Pages', cGuideSub: 'چهار قدم ساده',
+      guide: ['«خروجی index.html» را بزنید؛ فایل index.html با اطلاعات شما دانلود می‌شود.', 'در گیت‌هاب یک مخزن (Repository) بسازید و <code>index.html</code> را آپلود کنید (اگر عکس را با آدرس داده‌اید، آن را هم آپلود کنید).', 'در Settings ← Pages شاخهٔ <code>main</code> و پوشهٔ <code>/ (root)</code> را انتخاب کنید.', 'آدرس <code>https://نام‌کاربری.github.io/نام‌مخزن/</code> را در «آدرس صفحهٔ گیت‌هاب» بگذارید و دوباره خروجی بگیرید تا کیوآر چاپی هم درست باشد.'],
+      cPreview: 'پیش‌نمایش زنده', cPreviewSub: 'همان index.html با دادهٔ پیش‌نویس', print: 'چاپ',
+      exported: 'index.html ساخته شد', pickTpl: 'فایل index.html را انتخاب کنید', pickTplText: 'مرورگر اجازهٔ خواندن index.html را نداد (فایل محلی). خود فایل index.html را انتخاب کنید تا خروجی ساخته شود.',
+      choose: 'انتخاب فایل', copied: 'JSON کپی شد', imported: 'اطلاعات وارد شد', badFile: 'این فایل دادهٔ کارت ندارد', loaded: 'اطلاعات index.html بارگذاری شد',
+      resetAsk: 'پیش‌نویس پاک شود؟', resetText: 'تغییرات ذخیره‌نشده از بین می‌رود و اطلاعات index.html فعلی بارگذاری می‌شود.', yes: 'بله', needOneLang: 'دست‌کم یک زبان لازم است', imgFail: 'این تصویر خوانده نشد',
+      loginSub: 'ورود مدیر', password: 'رمز عبور', signIn: 'ورود', show: 'نمایش رمز',
+      wrongLogin: 'ایمیل یا رمز عبور درست نیست.', wait: 'تلاش زیاد بود؛ چند ثانیه صبر کنید.', needSecure: 'ورود فقط روی https (GitHub Pages) یا localhost کار می‌کند.',
+      loginNote: 'فقط مدیر می‌تواند وارد شود و ثبت‌نام وجود ندارد. بازدیدکنندگان فقط صفحهٔ کارت را می‌بینند.',
+      logout: 'خروج از حساب', changeLogin: 'تغییر ایمیل و رمز', changeLoginText: 'یک admin.html تازه با ورود جدید دانلود می‌شود؛ آن را جایگزین admin.html در گیت‌هاب کنید.',
+      newPass: 'رمز جدید (دست‌کم ۸ کاراکتر)', newPass2: 'تکرار رمز جدید', passShort: 'رمز باید دست‌کم ۸ کاراکتر باشد.', passMismatch: 'دو رمز یکسان نیستند.', badEmail: 'ایمیل درست نیست.',
+      makeAdmin: 'ساخت admin.html', cancel: 'انصراف', loginSaved: 'admin.html با ورود جدید ساخته شد؛ آن را در گیت‌هاب جایگزین کنید.',
+      pickAdmin: 'فایل admin.html را انتخاب کنید', pickAdminText: 'مرورگر اجازهٔ خواندن admin.html را نداد (فایل محلی). خود فایل admin.html را انتخاب کنید.',
+    },
+    en: {
+      tagline: 'Business card manager', open: 'Open page', export: 'Export index.html', exportShort: 'Export', madeBy: 'Designed & developed by', more: 'More',
+      dlJson: 'Download JSON', copyJson: 'Copy JSON', import: 'Import file (JSON / HTML)', loadPublished: 'Load from current index.html', reset: 'Clear draft',
+      heroTitle: 'Business Card Studio', heroText: 'Fill in your details, watch the live preview, then “Export index.html” and put that file on GitHub.',
+      autosave: 'Draft auto-saved',
+      cDesign: 'Design & languages', cDesignSub: 'Sakura, Christmas, New Year or Modern',
+      themes: { sakura: ['Sakura', 'Soft blossom pink'], christmas: ['Christmas', 'Pine, berry red, gold'], newyear: ['New Year', 'Midnight & gold, fireworks'], modern: ['Modern', 'Teal, light / dark'] },
+      allowSwitch: 'Visitors may switch the design', langsTitle: 'Languages', defaultLang: 'Default language',
+      langNames: { fa: 'فارسی', en: 'English', ja: '日本語' },
+      cIdentity: 'Identity', cIdentitySub: 'Name, title and company in three languages', fName: 'Full name', fTitle: 'Job title', fCompany: 'Company / brand',
+      cContact: 'Contact', cContactSub: 'Phone, e-mail, website', fPhone: 'Phone', fEmail: 'E-mail', fWebsite: 'Website',
+      cImages: 'Photo & logo', cImagesSub: 'Your photo and the logo on top of the card', fPhoto: 'Photo', fLogo: 'Logo',
+      hPhoto: 'Without a photo, your initials are shown. Uploads are cropped square and resized.', hLogo: 'No logo = nothing is shown on the card. A transparent PNG works best.',
+      imgUrl: 'Image path (e.g. images/me.jpg) or upload', upload: 'Upload', remove: 'Remove', uploaded: '(uploaded image, stored in the file)',
+      cQr: 'Card QR code', cQrSub: 'What opens when it is scanned', qrPage: 'Page link', qrVcard: 'Contact (vCard)', qrCustom: 'Custom text / link',
+      fPageUrl: 'GitHub page address', hPageUrl: 'If empty, the page’s own address is used. Fill it for correct printed cards.', fQrValue: 'QR content',
+      cSocial: 'Social networks & LINE', cSocialSub: 'Icons with links, links stay hidden', hSocial: 'Type a username or a full link. Empty = the icon is not shown.',
+      fLineId: 'LINE ID', fLineUrl: 'LINE link (optional)', fLineQr: 'LINE QR image (optional)', hLineQr: 'Without an image, a QR is generated from the ID / link.',
+      cProjects: 'Projects', cProjectsSub: 'Project names and links', addProject: 'Add project', pName: 'Project name', pDesc: 'Short description', pUrl: 'Project link',
+      up: 'Move up', down: 'Move down', del: 'Delete', noProj: 'No projects yet', noProjText: 'Start with “Add project”.', newProject: 'New project',
+      delAsk: 'Delete this project?',
+      cGuide: 'Publish on GitHub Pages', cGuideSub: 'Four simple steps',
+      guide: ['Press “Export index.html”; an index.html with your data is downloaded.', 'Create a GitHub repository and upload <code>index.html</code> (and any image you referenced by path).', 'In Settings → Pages choose branch <code>main</code> and folder <code>/ (root)</code>.', 'Put <code>https://username.github.io/repo/</code> into “GitHub page address” and export again so the printed QR is right too.'],
+      cPreview: 'Live preview', cPreviewSub: 'The real index.html with your draft', print: 'Print',
+      exported: 'index.html is ready', pickTpl: 'Choose index.html', pickTplText: 'The browser could not read index.html (local file). Choose the index.html file so the export can be built.',
+      choose: 'Choose file', copied: 'JSON copied', imported: 'Data imported', badFile: 'No card data in this file', loaded: 'Loaded from index.html',
+      resetAsk: 'Clear the draft?', resetText: 'Unsaved changes are lost and the current index.html data is loaded.', yes: 'Yes', needOneLang: 'At least one language is needed', imgFail: 'Could not read this image',
+      loginSub: 'Owner sign-in', password: 'Password', signIn: 'Sign in', show: 'Show password',
+      wrongLogin: 'The e-mail or password is not correct.', wait: 'Too many tries; wait a few seconds.', needSecure: 'Sign-in works only over https (GitHub Pages) or localhost.',
+      loginNote: 'Only the owner can sign in, and there is no sign-up. Visitors only see the card page.',
+      logout: 'Sign out', changeLogin: 'Change e-mail & password', changeLoginText: 'A new admin.html with the new sign-in is downloaded; replace admin.html on GitHub with it.',
+      newPass: 'New password (at least 8 characters)', newPass2: 'Repeat the new password', passShort: 'The password needs at least 8 characters.', passMismatch: 'The two passwords differ.', badEmail: 'The e-mail is not valid.',
+      makeAdmin: 'Build admin.html', cancel: 'Cancel', loginSaved: 'admin.html with the new sign-in is ready; replace it on GitHub.',
+      pickAdmin: 'Choose admin.html', pickAdminText: 'The browser could not read admin.html (local file). Choose the admin.html file.',
+    },
+    ja: {
+      tagline: '名刺マネージャー', open: 'ページを開く', export: 'index.html を書き出す', exportShort: '書き出し', madeBy: '開発：', more: 'その他',
+      dlJson: 'JSON をダウンロード', copyJson: 'JSON をコピー', import: 'ファイルを読み込む（JSON / HTML）', loadPublished: '現在の index.html から読み込む', reset: '下書きを消去',
+      heroTitle: '名刺スタジオ', heroText: '情報を入力し、ライブプレビューで確認してから「index.html を書き出す」。そのファイルを GitHub に置くだけです。',
+      autosave: '下書きは自動保存',
+      cDesign: 'デザインと言語', cDesignSub: '桜・クリスマス・お正月・モダン',
+      themes: { sakura: ['桜', 'やさしい桜色'], christmas: ['クリスマス', '松の緑・赤・金'], newyear: ['お正月', '紺と金・花火'], modern: ['モダン', 'ティール、ライト／ダーク'] },
+      allowSwitch: '閲覧者がデザインを切り替え可能', langsTitle: '使用する言語', defaultLang: '既定の言語',
+      langNames: { fa: 'فارسی', en: 'English', ja: '日本語' },
+      cIdentity: 'プロフィール', cIdentitySub: '氏名・役職・会社（3言語）', fName: '氏名', fTitle: '役職', fCompany: '会社／ブランド',
+      cContact: '連絡先', cContactSub: '電話・メール・ウェブサイト', fPhone: '電話', fEmail: 'メール', fWebsite: 'ウェブサイト',
+      cImages: '写真とロゴ', cImagesSub: '本人写真と名刺上部のロゴ', fPhoto: '写真', fLogo: 'ロゴ',
+      hPhoto: '写真がない場合はイニシャルを表示。アップロード画像は正方形に縮小されます。', hLogo: 'ロゴがなければ何も表示されません。透過 PNG がおすすめ。',
+      imgUrl: '画像パス（例 images/me.jpg）またはアップロード', upload: 'アップロード', remove: '削除', uploaded: '（ファイル内に保存された画像）',
+      cQr: '名刺の QR コード', cQrSub: '読み取ったときに開く内容', qrPage: 'ページのリンク', qrVcard: '連絡先（vCard）', qrCustom: '任意のテキスト／リンク',
+      fPageUrl: 'GitHub ページのアドレス', hPageUrl: '空欄ならページ自身のアドレスを使用。印刷用には入力をおすすめします。', fQrValue: 'QR の内容',
+      cSocial: 'SNS と LINE', cSocialSub: 'アイコンにリンク（リンク文字は非表示）', hSocial: 'ユーザー名か完全なリンクを入力。空欄のアイコンは表示されません。',
+      fLineId: 'LINE ID', fLineUrl: 'LINE リンク（任意）', fLineQr: 'LINE QR 画像（任意）', hLineQr: '画像がなければ ID／リンクから QR を生成します。',
+      cProjects: 'プロジェクト', cProjectsSub: 'プロジェクト名とリンク', addProject: 'プロジェクトを追加', pName: 'プロジェクト名', pDesc: '短い説明', pUrl: 'リンク',
+      up: '上へ', down: '下へ', del: '削除', noProj: 'プロジェクトはまだありません', noProjText: '「プロジェクトを追加」から始めましょう。', newProject: '新しいプロジェクト',
+      delAsk: 'このプロジェクトを削除しますか？',
+      cGuide: 'GitHub Pages で公開', cGuideSub: '簡単な4ステップ',
+      guide: ['「index.html を書き出す」を押すと、データ入りの index.html がダウンロードされます。', 'GitHub でリポジトリを作り、<code>index.html</code>（パスで指定した画像も）をアップロード。', 'Settings → Pages でブランチ <code>main</code>、フォルダ <code>/ (root)</code> を選択。', '<code>https://ユーザー名.github.io/リポジトリ/</code> を「GitHub ページのアドレス」に入れて再度書き出すと、印刷用 QR も正しくなります。'],
+      cPreview: 'ライブプレビュー', cPreviewSub: '下書きを反映した実際の index.html', print: '印刷',
+      exported: 'index.html を作成しました', pickTpl: 'index.html を選択', pickTplText: 'ブラウザが index.html を読めませんでした（ローカルファイル）。index.html を選択すると書き出せます。',
+      choose: 'ファイルを選択', copied: 'JSON をコピーしました', imported: '読み込みました', badFile: 'このファイルに名刺データがありません', loaded: 'index.html から読み込みました',
+      resetAsk: '下書きを消去しますか？', resetText: '保存していない変更は失われ、現在の index.html のデータを読み込みます。', yes: 'はい', needOneLang: '少なくとも1つの言語が必要です', imgFail: '画像を読み込めませんでした',
+      loginSub: 'オーナーログイン', password: 'パスワード', signIn: 'ログイン', show: 'パスワードを表示',
+      wrongLogin: 'メールアドレスまたはパスワードが正しくありません。', wait: '試行回数が多すぎます。数秒お待ちください。', needSecure: 'ログインは https（GitHub Pages）または localhost でのみ使えます。',
+      loginNote: 'ログインできるのはオーナーだけで、新規登録はありません。訪問者には名刺ページだけが表示されます。',
+      logout: 'ログアウト', changeLogin: 'メールとパスワードを変更', changeLoginText: '新しいログイン情報入りの admin.html がダウンロードされます。GitHub の admin.html と置き換えてください。',
+      newPass: '新しいパスワード（8文字以上）', newPass2: '新しいパスワード（確認）', passShort: 'パスワードは8文字以上にしてください。', passMismatch: '2つのパスワードが一致しません。', badEmail: 'メールアドレスが正しくありません。',
+      makeAdmin: 'admin.html を作成', cancel: 'キャンセル', loginSaved: '新しいログイン情報の admin.html を作成しました。GitHub で置き換えてください。',
+      pickAdmin: 'admin.html を選択', pickAdminText: 'ブラウザが admin.html を読めませんでした（ローカルファイル）。admin.html を選択してください。',
+    },
+  };
+  const LANGS = ['en', 'fa', 'ja'];
+  const THEMES = ['sakura', 'christmas', 'newyear', 'modern'];
+  let ui = (() => { try { return localStorage.getItem('card_admin_lang'); } catch { return null; } })() || 'fa';
+  if (!LANGS.includes(ui)) ui = 'fa';
+  const w = (k) => W[ui][k] ?? W.en[k] ?? k;
+
+  /* ── data ─────────────────────────────────────────────────────────── */
+  const BLANK = () => ({
+    version: 1, theme: 'sakura', allowThemeSwitch: true, defaultLang: 'en', languages: ['en', 'fa', 'ja'],
+    name: { fa: '', en: '', ja: '' }, title: { fa: '', en: '', ja: '' }, company: { fa: '', en: '', ja: '' },
+    phone: '', email: '', website: '', pageUrl: '', photo: '', logo: '',
+    qr: { mode: 'page', value: '' },
+    social: { youtube: '', instagram: '', tiktok: '', github: '', linkedin: '' },
+    line: { id: '', url: '', qr: '' },
+    projects: [],
+  });
+  const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
+  function merge(base, src) {
+    if (!isObj(src)) return base;
+    for (const k of Object.keys(src)) {
+      if (isObj(base[k]) && isObj(src[k])) merge(base[k], src[k]);
+      else if (src[k] !== undefined) base[k] = src[k];
+    }
+    return base;
+  }
+  const normalize = (d) => {
+    const out = merge(BLANK(), JSON.parse(JSON.stringify(d || {})));
+    if (!Array.isArray(out.projects)) out.projects = [];
+    out.projects = out.projects.map((p) => merge({ name: { fa: '', en: '', ja: '' }, desc: { fa: '', en: '', ja: '' }, url: '' }, p));
+    if (!Array.isArray(out.languages) || !out.languages.length) out.languages = ['en', 'fa', 'ja'];
+    return out;
+  };
+  const DRAFT = 'card_admin_draft';
+  let S = BLANK();
+  const save = () => { try { localStorage.setItem(DRAFT, JSON.stringify(S)); } catch (e) { Q.toast(String(e.message || e), 'warning'); } };
+
+  const getPath = (o, p) => p.split('.').reduce((a, k) => (a == null ? a : a[k]), o);
+  const setPath = (o, p, v) => { const ks = p.split('.'); const last = ks.pop(); const t = ks.reduce((a, k) => (a[k] ??= {}), o); t[last] = v; };
+
+  const RE = /(<script type="application\/json" id="card-data">)([\s\S]*?)(<\/script>)/;
+  const extract = (html) => { const m = RE.exec(html); if (!m) return null; try { return JSON.parse(m[2]); } catch { return null; } };
+  async function fetchIndex() {
+    try { const r = await fetch('index.html', { cache: 'no-store' }); if (r.ok) return await r.text(); } catch { /* file:// */ }
+    return null;
+  }
+
+  /* ── preview (iframe = the real index.html) ───────────────────────── */
+  const frame = $('frame');
+  const target = () => (location.origin === 'null' ? '*' : location.origin);
+  let pt;
+  function push() {
+    clearTimeout(pt);
+    pt = setTimeout(() => { try { frame.contentWindow?.postMessage({ type: 'card:data', data: S }, target()); } catch { /* not ready */ } }, 120);
+  }
+  window.addEventListener('message', (e) => { if (e.source === frame.contentWindow && e.data?.type === 'card:ready') push(); });
+  function changed() { save(); push(); refreshBits(); }
+
+  /* ── build dynamic parts ──────────────────────────────────────────── */
+  function buildThemes() {
+    $('themes').innerHTML = THEMES.map((t) => `<label class="q-radio-card"><input type="radio" name="theme" value="${t}" data-k="theme"><span class="st-sw" data-t="${t}"></span><span><b>${esc(w('themes')[t][0])}</b><small>${esc(w('themes')[t][1])}</small></span></label>`).join('');
+  }
+  function buildLangs() {
+    $('langChecks').innerHTML = LANGS.map((l) => `<label class="q-check"><input type="checkbox" value="${l}" data-lang-check>${esc(w('langNames')[l])}</label>`).join('');
+    $('defaultLang').innerHTML = LANGS.map((l) => `<option value="${l}">${esc(w('langNames')[l])}</option>`).join('');
+  }
+  function trio(path, ph) {
+    return LANGS.map((l) => `<label data-l="${l}"><small>${esc(w('langNames')[l])}</small><input class="q-input" data-k="${path}.${l}" lang="${l}" dir="${l === 'fa' ? 'rtl' : 'ltr'}" placeholder="${esc(ph || '')}"></label>`).join('');
+  }
+  function buildTrios() { document.querySelectorAll('[data-trio]').forEach((el) => { el.innerHTML = trio(el.dataset.trio); }); }
+  function buildImages() {
+    document.querySelectorAll('[data-img]').forEach((el) => {
+      const k = el.dataset.img;
+      el.innerHTML = `<span class="st-thumb${el.hasAttribute('data-round') ? ' is-round' : ''}" data-thumb="${k}"><i class="fa-regular fa-image"></i></span>
+        <input class="q-input" dir="ltr" data-imgurl="${k}" placeholder="${esc(w('imgUrl'))}">
+        <span class="q-actions"><label class="q-btn is-soft sm st-file"><i class="fa-solid fa-upload"></i>${esc(w('upload'))}<input type="file" accept="image/*" data-imgfile="${k}"></label>
+        <button class="q-btn is-ghost sm is-icon" type="button" data-imgdel="${k}" aria-label="${esc(w('remove'))}" title="${esc(w('remove'))}"><i class="fa-solid fa-xmark"></i></button></span>`;
+    });
+  }
+  function buildProjects() {
+    const list = $('projList');
+    if (!S.projects.length) { list.innerHTML = `<div class="q-empty"><i class="fa-solid fa-folder-open"></i><h3>${esc(w('noProj'))}</h3><p>${esc(w('noProjText'))}</p></div>`; return; }
+    list.innerHTML = S.projects.map((p, i) => {
+      const title = p.name[ui] || p.name[S.defaultLang] || Object.values(p.name).find(Boolean) || w('newProject');
+      let host = ''; try { host = p.url ? new URL(p.url).host : ''; } catch { host = ''; }
+      return `<article class="q-row${p._open ? ' is-open' : ''}" data-i="${i}">
+        <button class="q-row-head" type="button"><span class="q-ico sm"><i class="fa-solid fa-cube"></i></span><b class="q-grow">${esc(title)}</b>${host ? `<span class="q-chip q-num">${esc(host)}</span>` : ''}<i class="fa-solid fa-chevron-down q-card-chev"></i></button>
+        <div class="q-row-body q-stack">
+          <p class="st-sub">${esc(w('pName'))}</p><div class="q-trio">${trio(`projects.${i}.name`)}</div>
+          <p class="st-sub">${esc(w('pDesc'))}</p><div class="q-trio">${trio(`projects.${i}.desc`)}</div>
+          <label class="q-field"><span class="q-label">${esc(w('pUrl'))}</span><span class="q-input-group"><i class="fa-solid fa-link"></i><input class="q-input" dir="ltr" type="url" data-k="projects.${i}.url" placeholder="https://github.com/…"></span></label>
+          <div class="q-actions is-end"><div class="q-menu">
+            <button class="q-btn is-icon sm" type="button" data-q-menu aria-expanded="false" aria-label="${esc(w('more'))}"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+            <div class="q-menu-pop" hidden>
+              <button class="q-menu-item" data-pact="up" data-i="${i}"${i === 0 ? ' disabled' : ''}><i class="fa-solid fa-arrow-up"></i>${esc(w('up'))}</button>
+              <button class="q-menu-item" data-pact="down" data-i="${i}"${i === S.projects.length - 1 ? ' disabled' : ''}><i class="fa-solid fa-arrow-down"></i>${esc(w('down'))}</button>
+              <button class="q-menu-item is-danger" data-pact="del" data-i="${i}"><i class="fa-solid fa-trash"></i>${esc(w('del'))}</button>
+            </div></div></div>
+        </div></article>`;
+    }).join('');
+    fill(list);
+  }
+
+  /* ── fill inputs from state ───────────────────────────────────────── */
+  function fill(scope = document) {
+    scope.querySelectorAll('[data-k]').forEach((el) => {
+      const v = getPath(S, el.dataset.k);
+      if (el.type === 'radio') el.checked = v === el.value;
+      else if (el.type === 'checkbox') el.checked = !!v;
+      else el.value = v ?? '';
+    });
+  }
+  function fillImages() {
+    document.querySelectorAll('[data-imgurl]').forEach((el) => {
+      const k = el.dataset.imgurl; const v = getPath(S, k) || '';
+      const isData = v.startsWith('data:');
+      el.value = isData ? '' : v;
+      el.placeholder = isData ? w('uploaded') : w('imgUrl');
+      const th = document.querySelector(`[data-thumb="${k}"]`);
+      th.classList.toggle('has-img', !!v);
+      th.style.backgroundImage = v ? `url("${v.replace(/["\\]/g, '')}")` : '';
+    });
+  }
+  function refreshBits() {
+    $('projBadge').textContent = String(S.projects.length);
+    document.querySelectorAll('[data-lang-check]').forEach((c) => { c.checked = S.languages.includes(c.value); });
+    document.querySelectorAll('.q-trio > label[data-l]').forEach((l) => { l.hidden = !S.languages.includes(l.dataset.l); });
+    [...$('defaultLang').options].forEach((o) => { o.disabled = !S.languages.includes(o.value); });
+    $('defaultLang').value = S.defaultLang;
+    $('qrMode').querySelectorAll('button').forEach((b) => { const on = b.dataset.value === (S.qr.mode || 'page'); b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); });
+    $('qrCustomField').hidden = S.qr.mode !== 'custom';
+  }
+
+  function applyWords() {
+    const html = document.documentElement;
+    html.lang = ui; html.dir = ui === 'fa' ? 'rtl' : 'ltr';
+    document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = w(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => el.setAttribute('aria-label', w(el.dataset.i18nAria)));
+    document.querySelectorAll('#uiLang > button, #loginLang > button').forEach((b) => { const on = b.dataset.value === ui; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', String(on)); });
+  }
+  function applyUi() {
+    applyWords();
+    $('guide').innerHTML = w('guide').map((s) => `<li>${s}</li>`).join('');   // static strings from this file
+    buildThemes(); buildLangs(); buildTrios(); buildImages(); buildProjects();
+    fill(); fillImages(); refreshBits(); push();
+  }
+
+  /* ── events ───────────────────────────────────────────────────────── */
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (el.dataset.k) {
+      const v = el.type === 'checkbox' ? el.checked : el.value;
+      setPath(S, el.dataset.k, el.type === 'radio' ? el.value : v);
+      if (/^projects\.\d+\.(name|url)/.test(el.dataset.k)) updateRowHead(el);
+      changed();
+    } else if (el.dataset.imgurl) {
+      setPath(S, el.dataset.imgurl, el.value.trim()); fillImages(); changed();
+    }
+  });
+  document.addEventListener('change', async (e) => {
+    const el = e.target;
+    if (el.matches('[data-lang-check]')) {
+      const set = new Set(S.languages); el.checked ? set.add(el.value) : set.delete(el.value);
+      if (!set.size) { el.checked = true; Q.toast(w('needOneLang'), 'warning'); return; }
+      S.languages = LANGS.filter((l) => set.has(l));
+      if (!S.languages.includes(S.defaultLang)) S.defaultLang = S.languages[0];
+      changed();
+    } else if (el.dataset.k === 'theme' || el.dataset.k === 'defaultLang') {
+      setPath(S, el.dataset.k, el.value); changed();
+    } else if (el.dataset.imgfile) {
+      const f = el.files?.[0]; el.value = '';
+      if (!f) return;
+      const k = el.dataset.imgfile;
+      try { setPath(S, k, await shrink(f, k)); fillImages(); changed(); }
+      catch { Q.toast(w('imgFail'), 'error'); }
+    }
+  });
+  function updateRowHead(el) {
+    const row = el.closest('.q-row'); if (!row) return;
+    const p = S.projects[+row.dataset.i];
+    row.querySelector('.q-row-head b').textContent = p.name[ui] || p.name[S.defaultLang] || Object.values(p.name).find(Boolean) || w('newProject');
+  }
+
+  document.addEventListener('click', async (e) => {
+    const t = e.target;
+    const del = t.closest('[data-imgdel]');
+    if (del) { setPath(S, del.dataset.imgdel, ''); fillImages(); changed(); return; }
+    const ul = t.closest('#uiLang > button, #loginLang > button');
+    if (ul) { ui = ul.dataset.value; try { localStorage.setItem('card_admin_lang', ui); } catch { /* */ } if (unlocked) applyUi(); else applyWords(); return; }
+    const pa = t.closest('[data-pact]');
+    if (pa) {
+      const i = +pa.dataset.i; const P = S.projects;
+      if (pa.dataset.pact === 'up' && i > 0) [P[i - 1], P[i]] = [P[i], P[i - 1]];
+      else if (pa.dataset.pact === 'down' && i < P.length - 1) [P[i + 1], P[i]] = [P[i], P[i + 1]];
+      else if (pa.dataset.pact === 'del') {
+        const ok = await Q.ask({ title: w('delAsk'), danger: true, icon: 'fa-trash', ok: w('del') });
+        if (!ok) return;
+        P.splice(i, 1);
+      }
+      buildProjects(); changed(); return;
+    }
+    const act = t.closest('[data-act]');
+    if (act) runAct(act.dataset.act);
+  });
+  $('qrMode').addEventListener('q:change', (e) => { S.qr.mode = e.detail.value; changed(); });
+  $('device').addEventListener('q:change', (e) => { $('frameWrap').classList.toggle('is-phone', e.detail.value === 'phone'); });
+  $('printBtn').addEventListener('click', () => { try { frame.contentWindow.focus(); frame.contentWindow.print(); } catch { window.open('index.html', '_blank'); } });
+  $('addProj').addEventListener('click', () => {
+    S.projects.push({ name: { fa: '', en: '', ja: '' }, desc: { fa: '', en: '', ja: '' }, url: '' });
+    buildProjects(); changed();
+    const last = $('projList').lastElementChild; Q.fold(last, true); last.querySelector('input')?.focus();
+  });
+  // remember which project rows are open across rebuilds
+  $('projList').addEventListener('click', (e) => { const h = e.target.closest('.q-row-head'); if (h) setTimeout(() => { const r = h.parentElement; S.projects[+r.dataset.i]._open = r.classList.contains('is-open'); }, 0); });
+
+  /* ── images: shrink before storing (keeps index.html light) ───────── */
+  function shrink(file, key) {
+    return new Promise((resolve, reject) => {
+      const img = new Image(); const url = URL.createObjectURL(file);
+      img.onload = () => {
+        URL.revokeObjectURL(url);
+        const square = key === 'photo';
+        const max = square ? 420 : 360;
+        let sx = 0, sy = 0, sw = img.naturalWidth, sh = img.naturalHeight;
+        if (square) { const m = Math.min(sw, sh); sx = (sw - m) / 2; sy = (sh - m) / 2; sw = sh = m; }
+        const scale = Math.min(1, max / Math.max(sw, sh));
+        const c = document.createElement('canvas'); c.width = Math.round(sw * scale); c.height = Math.round(sh * scale);
+        const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+        g.drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
+        resolve(square ? c.toDataURL('image/jpeg', 0.86) : c.toDataURL('image/png'));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('img')); };
+      img.src = url;
+    });
+  }
+
+  /* ── export / import ──────────────────────────────────────────────── */
+  const clean = () => JSON.parse(JSON.stringify(S, (k, v) => (k === '_open' ? undefined : v)));
+  const download = (name, text, type) => {
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], { type }));
+    a.download = name; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  };
+  const pickFile = (accept) => new Promise((resolve) => {
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = accept;
+    inp.onchange = () => { const f = inp.files?.[0]; if (!f) return resolve(null); f.text().then(resolve, () => resolve(null)); };
+    inp.click();
+  });
+  const escHtml = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  function build(tpl) {
+    const d = clean();
+    const json = JSON.stringify(d, null, 2).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+    const nm = d.name[d.defaultLang] || Object.values(d.name).find(Boolean) || 'Business Card';
+    const tt = d.title[d.defaultLang] || Object.values(d.title).find(Boolean) || '';
+    return tpl
+      .replace(RE, (_, a, __, c) => `${a}\n${json}\n${c}`)
+      .replace(/<html lang="[^"]*" dir="[^"]*" data-theme="[^"]*">/, () => `<html lang="${d.defaultLang}" dir="${d.defaultLang === 'fa' ? 'rtl' : 'ltr'}" data-theme="${d.theme}">`)
+      .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${escHtml([nm, tt].filter(Boolean).join(' — '))}</title>`)
+      .replace(/<meta name="description" content="[^"]*">/, () => `<meta name="description" content="${escHtml([nm, tt, d.company[d.defaultLang]].filter(Boolean).join(' · '))}">`);
+  }
+  async function exportHtml() {
+    const btn = $('exportBtn'); btn.classList.add('is-loading');
+    try {
+      let tpl = await fetchIndex();
+      if (!tpl || !RE.test(tpl)) {
+        const ok = await Q.ask({ title: w('pickTpl'), body: w('pickTplText'), ok: w('choose'), icon: 'fa-file-code' });
+        if (!ok) return;
+        tpl = await pickFile('.html,text/html');
+        if (!tpl || !RE.test(tpl)) { Q.toast(w('badFile'), 'error'); return; }
+      }
+      download('index.html', build(tpl), 'text/html;charset=utf-8');
+      Q.toast(w('exported'), 'success');
+    } finally { btn.classList.remove('is-loading'); }
+  }
+  $('exportBtn').addEventListener('click', exportHtml);
+
+  async function runAct(a) {
+    if (a === 'login') return changeLogin();
+    if (a === 'logout') return logout();
+    if (a === 'json') download('card-data.json', JSON.stringify(clean(), null, 2), 'application/json');
+    else if (a === 'copy') { try { await navigator.clipboard.writeText(JSON.stringify(clean(), null, 2)); Q.toast(w('copied')); } catch { Q.toast('—', 'error'); } }
+    else if (a === 'import') $('importFile').click();
+    else if (a === 'published') { const h = await fetchIndex(); const d = h && extract(h); if (!d) return Q.toast(w('badFile'), 'error'); S = normalize(d); save(); applyUi(); Q.toast(w('loaded')); }
+    else if (a === 'reset') {
+      const ok = await Q.ask({ title: w('resetAsk'), body: w('resetText'), danger: true, ok: w('yes'), icon: 'fa-rotate-left' });
+      if (!ok) return;
+      try { localStorage.removeItem(DRAFT); } catch { /* */ }
+      const h = await fetchIndex(); S = normalize((h && extract(h)) || BLANK()); applyUi(); Q.toast(w('loaded'));
+    }
+  }
+  $('importFile').addEventListener('change', async (e) => {
+    const f = e.target.files?.[0]; e.target.value = ''; if (!f) return;
+    const txt = await f.text();
+    let d = null;
+    try { d = /^\s*[{[]/.test(txt) ? JSON.parse(txt) : extract(txt); } catch { d = null; }
+    if (!isObj(d)) return Q.toast(w('badFile'), 'error');
+    S = normalize(d); save(); applyUi(); Q.toast(w('imported'));
+  });
+
+  /* ── glass scroll indicator (native scrollbar is hidden) ──────────── */
+  (() => {
+    const bar = document.createElement('div');
+    bar.className = 'st-glass-scroll'; bar.setAttribute('aria-hidden', 'true');
+    document.body.append(bar);
+    let hide;
+    const update = (show) => {
+      const vh = window.innerHeight, sh = document.documentElement.scrollHeight;
+      if (sh <= vh + 1) { bar.classList.remove('is-on'); return; }
+      const th = Math.max(36, (vh * vh) / sh);
+      const top = (window.scrollY / (sh - vh)) * (vh - th - 6) + 3;
+      bar.style.height = th + 'px';
+      bar.style.transform = `translateY(${top}px)`;
+      if (!show) return;
+      bar.classList.add('is-on');
+      clearTimeout(hide); hide = setTimeout(() => bar.classList.remove('is-on'), 900);
+    };
+    window.addEventListener('scroll', () => update(true), { passive: true });
+    window.addEventListener('resize', () => update(false));
+  })();
+
+  document.getElementById('year').textContent = String(new Date().getFullYear());
+
+  /* ── owner sign-in (no sign-up) ───────────────────────────────────── */
+  // Static hosting has no server, so the check runs here against a salted PBKDF2 hash;
+  // the e-mail and password themselves are never stored in this file.
+  const AUTH = (() => { try { return JSON.parse($('studio-auth').textContent); } catch { return null; } })();
+  const SESSION = 'card_studio_session';
+  const enc = new TextEncoder();
+  const b64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const toB64 = (u8) => btoa(String.fromCharCode(...u8));
+  async function derive(email, pass, salt, iter) {
+    const key = await crypto.subtle.importKey('raw', enc.encode(email.trim().toLowerCase() + '\n' + pass), 'PBKDF2', false, ['deriveBits']);
+    return new Uint8Array(await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: iter }, key, 256));
+  }
+  const same = (a, b) => { if (a.length !== b.length) return false; let x = 0; for (let i = 0; i < a.length; i++) x |= a[i] ^ b[i]; return x === 0; };
+  let unlocked = false, fails = 0, waitUntil = 0;
+
+  function loginError(key) { $('loginErrText').textContent = w(key); $('loginErr').hidden = false; }
+  $('eye').addEventListener('click', () => {
+    const p = $('loginPass'); const show = p.type === 'password';
+    p.type = show ? 'text' : 'password';
+    $('eye').querySelector('i').className = show ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+  });
+  $('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    $('loginErr').hidden = true;
+    if (!AUTH) return loginError('wrongLogin');
+    if (!window.crypto?.subtle) return loginError('needSecure');
+    if (Date.now() < waitUntil) return loginError('wait');
+    const btn = $('loginBtn'); btn.classList.add('is-loading'); btn.disabled = true;
+    try {
+      const got = await derive($('loginEmail').value, $('loginPass').value, b64(AUTH.salt), AUTH.iter);
+      if (same(got, b64(AUTH.hash))) {
+        try { sessionStorage.setItem(SESSION, AUTH.hash); } catch { /* private mode */ }
+        $('loginPass').value = '';
+        unlock();
+      } else {
+        fails++; waitUntil = Date.now() + Math.min(500 * 2 ** fails, 15000);   // slows repeated guessing
+        loginError('wrongLogin'); $('loginPass').select();
+      }
+    } finally { btn.classList.remove('is-loading'); btn.disabled = false; }
+  });
+  function logout() { try { sessionStorage.removeItem(SESSION); } catch { /* */ } location.reload(); }
+
+  // change e-mail & password → download a new admin.html carrying the new hash
+  function changeLogin() {
+    const host = document.createElement('div');
+    host.className = 'q-dialog'; host.setAttribute('role', 'dialog'); host.setAttribute('aria-modal', 'true');
+    host.innerHTML = `<form class="q-dialog-card" novalidate>
+      <div class="q-dialog-head"><span class="q-ico lg"><i class="fa-solid fa-key"></i></span><div class="q-grow"><b>${esc(w('changeLogin'))}</b><p>${esc(w('changeLoginText'))}</p></div></div>
+      <label class="q-field"><span class="q-label">${esc(w('fEmail'))}</span><input class="q-input" name="email" type="email" dir="ltr" autocomplete="username" required></label>
+      <label class="q-field"><span class="q-label">${esc(w('newPass'))}</span><input class="q-input" name="p1" type="password" dir="ltr" autocomplete="new-password" required></label>
+      <label class="q-field"><span class="q-label">${esc(w('newPass2'))}</span><input class="q-input" name="p2" type="password" dir="ltr" autocomplete="new-password" required></label>
+      <div class="q-alert is-danger" hidden><i class="fa-solid fa-circle-xmark"></i><span class="q-grow"></span></div>
+      <div class="q-dialog-acts"><button type="button" class="q-btn is-ghost" data-x>${esc(w('cancel'))}</button><button type="submit" class="q-btn is-primary">${esc(w('makeAdmin'))}</button></div></form>`;
+    document.body.append(host);
+    const f = host.querySelector('form'); const err = host.querySelector('.q-alert');
+    const close = () => { document.removeEventListener('keydown', onKey, true); host.remove(); };
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    document.addEventListener('keydown', onKey, true);
+    host.addEventListener('click', (e) => { if (e.target === host || e.target.closest('[data-x]')) close(); });
+    f.email.focus();
+    f.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fail = (k) => { err.querySelector('span').textContent = w(k); err.hidden = false; };
+      const email = f.email.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('badEmail');
+      if (f.p1.value.length < 8) return fail('passShort');
+      if (f.p1.value !== f.p2.value) return fail('passMismatch');
+      const submit = f.querySelector('[type=submit]'); submit.classList.add('is-loading');
+      try {
+        const iter = 310000; const salt = crypto.getRandomValues(new Uint8Array(16));
+        const hash = await derive(email, f.p1.value, salt, iter);
+        const rec = JSON.stringify({ v: 1, alg: 'PBKDF2-SHA256', iter, salt: toB64(salt), hash: toB64(hash) });
+        const AUTH_RE = /(<script type="application\/json" id="studio-auth">)[\s\S]*?(<\/script>)/;
+        let src = null;
+        try { const r = await fetch('admin.html', { cache: 'no-store' }); if (r.ok) src = await r.text(); } catch { /* file:// */ }
+        if (!src || !AUTH_RE.test(src)) {
+          close();
+          const ok = await Q.ask({ title: w('pickAdmin'), body: w('pickAdminText'), ok: w('choose'), icon: 'fa-file-code' });
+          if (!ok) return;
+          src = await pickFile('.html,text/html');
+          if (!src || !AUTH_RE.test(src)) { Q.toast(w('badFile'), 'error'); return; }
+        }
+        download('admin.html', src.replace(AUTH_RE, (_, a, c) => a + rec + c), 'text/html;charset=utf-8');
+        close(); Q.toast(w('loginSaved'), 'success', 6000);
+      } finally { submit.classList.remove('is-loading'); }
+    });
+  }
+
+  /* ── start (after sign-in): draft → published index.html → blank ──── */
+  async function unlock() {
+    unlocked = true;
+    $('login').hidden = true;
+    document.body.classList.remove('is-locked');
+    frame.src = frame.dataset.src;
+    let d = null;
+    try { d = JSON.parse(localStorage.getItem(DRAFT) || 'null'); } catch { d = null; }
+    if (!d) { const h = await fetchIndex(); d = h && extract(h); }
+    S = normalize(d || BLANK());
+    applyUi();
+  }
+  let hasSession = false;
+  try { hasSession = !!AUTH && sessionStorage.getItem(SESSION) === AUTH.hash; } catch { /* */ }
+  if (hasSession) unlock();
+  else { applyWords(); $('loginEmail').focus(); }
+})();
+</script>
+</body>
+</html>
